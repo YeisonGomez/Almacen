@@ -1,12 +1,14 @@
+import { Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
 
+@Injectable()
 export class ProfileSQL {
 
   private storage: any;
   private user: any;
 
-  constructor() {
-    this.storage = new Storage();
+  constructor(private storage2: Storage) {
+    this.storage = storage2; 
   }
 
   public setUser(data: any){
