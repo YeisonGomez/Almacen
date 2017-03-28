@@ -17,14 +17,20 @@
     }
     .header-button {
         text-align: center;
-        h2{
-        	margin-top: 30%;
-        	margin-bottom: 10%;
+        h2 {
+            margin-top: 30%;
+            margin-bottom: 10%;
         }
         button {
             background-color: green;
             padding: 1em 2em;
-        	color: #fff;
+            color: #fff;
+            box-shadow: 2px 2px 5px #999;
+            &:active {
+                transition: all .5s ease-in;
+                background-color: darkgreen;
+                box-shadow: 2px 2px 5px #000;
+            }
         }
     }
 }
