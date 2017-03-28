@@ -1,3 +1,30 @@
-page-home {
-
+.login-logo {
+    .header-logo {
+        position: relative;
+        height: 45%;
+        background-color: green;
+    }
+    .circle-logo {
+        position: relative;
+        border-radius: 50%;
+        border: solid 1em #fff;
+        width: 10em;
+        height: 10em;
+        margin: 0 auto;
+        bottom: -75%;
+        background-color: green;
+        padding: 1.2em;
+    }
+    .header-button {
+        text-align: center;
+        h2{
+        	margin-top: 30%;
+        	margin-bottom: 10%;
+        }
+        button {
+            background-color: green;
+            padding: 1em 2em;
+        	color: #fff;
+        }
+    }
 }
