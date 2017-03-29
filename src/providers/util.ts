@@ -1,11 +1,10 @@
-import { ToastController } from 'ionic-angular';
+import { ToastController, LoadingController } from 'ionic-angular';
 import { Injectable } from "@angular/core";
 
 @Injectable()
 export class Util {
 
-  constructor(private toastCtrl: ToastController) {
-
+  constructor(private toastCtrl: ToastController, public loadingCtrl: LoadingController) {
   }
 
   public presentToast(message: string) {
@@ -15,6 +14,16 @@ export class Util {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  public loading(): any {
+      let loader = this.loadingCtrl.create({
+        content: "Cargando",
+        dismissOnPageChange: false
+      });
+      
+      loader.present();
+      return loader;
   }
 
 }

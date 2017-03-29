@@ -19,7 +19,6 @@ export class ContractService {
   }
 
   handleError(error) {
-    console.log(error);
-    return error.json().message || 'Server error, please try again later';
+    return error.json().message || { status: 'ERROR', message: 'No es posible conectarse al servidor.'};
   }
 }
