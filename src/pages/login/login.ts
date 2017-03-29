@@ -12,7 +12,7 @@ declare var window: any;
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [ Oauth2Service, ProfileSQL, Util]
+  providers: [ Oauth2Service, ProfileSQL, Util, Network]
 })
 export class LoginPage {
 
@@ -30,6 +30,7 @@ export class LoginPage {
 
 	ionViewDidLoad() {
 		this.menu.swipeEnable(false, 'menu1');
+		//this.network.onConnect();
 	}
  
 	login(){
@@ -40,7 +41,6 @@ export class LoginPage {
 		    	this.oauth2Service.getAccessToken(success.detail)
 				.then(response => {
 					this.loading = false;
-					console.log(response);
 					this.profileSQL.setUser(response);
 					this.navCtrl.setRoot(HomePage);
 				})

@@ -1,19 +1,14 @@
-<!--<ion-header>
+<ion-header>
     <ion-navbar>
-        <button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title>home</ion-title>
+        <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+        <ion-title>Home</ion-title>
     </ion-navbar>
-</ion-header>-->
-<ion-content class="login-logo">
-    <div class="header-logo">
-        <div class="circle-logo">
-            <img src="../../assets/LogoUA.svg" alt="Logo">
-        </div>
-    </div>
-    <div class="header-button">
-        <h2>Sistema misional Chairá</h2>
-        <button (click)="login()">Iniciar sesión</button>
-    </div>
+</ion-header>
+
+<ion-content>
+    <input type="text" placeholder="Buscar por contrato" [(ngModel)]="contract_id">
+    <button (click)="getContract(contract_id)">Buscar</button>
+    <ion-icon name="search" (click)="getContract(contract_id)"></ion-icon>
 </ion-content>
