@@ -1,12 +1,90 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="primary">
         <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-        <ion-title>Home</ion-title>
+        <ion-title>Contrato</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <ion-searchbar debounce="600" placeholder="Número del contrato" type="number" (ionInput)="getContract($event)"></ion-searchbar>
+    <ion-slides zoom="false" [ngStyle]="{'height': '100%'}" *ngIf="contract">
+        <ion-slide>
+            <ion-card class="cards-list-demo">
+                <ion-item-group>
+                    <ion-item-divider color="light">Proveedor</ion-item-divider>
+                    <ion-item>
+                        <h2>{{contract.NAME_PROVEEDOR}}</h2>
+                        <p>{{contract.PEGE_DOCUMENTOIDENTIDAD}}</p>
+                    </ion-item>
+                </ion-item-group>
+
+                <ion-item-group>
+                    <ion-item-divider color="light">Información del contrato</ion-item-divider>
+                    <ion-item>
+                        <ion-label color="light-text">Fecha registro</ion-label>
+                        <ion-label class="align-right">{{contract.COCO_FECHAREGISTRO | date: 'dd/MM/yyyy'}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Fecha vencimiento</ion-label>
+                        <ion-label class="align-right">{{contract.COCO_FECHATERMINACION | date: 'dd/MM/yyyy'}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Forma de pago</ion-label>
+                        <ion-label class="align-right">{{contract.COCO_FORMAPAGO}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Consumo</ion-label>
+                        <ion-label class="align-right">{{contract.COCO_VALORTOTAL | currency:'USD':true:'1.0-2'}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Valor CDP</ion-label>
+                        <ion-label class="align-right">{{contract.SOCO_CDPASIGNADO | currency:'USD':true:'1.0-2'}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Saldo</ion-label>
+                        <ion-label class="align-right">{{(contract.SOCO_CDPASIGNADO - contract.COCO_VALORTOTAL )| currency:'USD':true:'1.0-2'}}</ion-label>
+                    </ion-item>
+                </ion-item-group>
+            </ion-card>
+        </ion-slide>
+        <ion-slide>
+            <ion-card class="cards-list-demo" *ngFor="let element of elements">
+                <ion-item-group>
+                    <ion-item-divider color="light">Elemento solicitado</ion-item-divider>
+                    <ion-item>
+                        <h2>{{element.CLAS_NOMBRE}}</h2>
+                        <p>Código: {{element.CLAS_ID}}</p>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Cantidad solicitada</ion-label>
+                        <ion-label class="align-right">{{element.COCD_CANTIDADSOLICITADA}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Cantidad pendiente</ion-label>
+                        <ion-label class="align-right">{{element.CANT_PENDIENTE}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Cantidad facturada</ion-label>
+                        <ion-label class="align-right">{{element.CANT_FACTURADA}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Cantidad faltante</ion-label>
+                        <ion-label class="align-right">{{element.CANT_FALTANTE}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <button ion-button icon-left clear item-right>
+                            <ion-icon name="clipboard"></ion-icon>
+                            Ver facturas
+                        </button>
+                    </ion-item>
+                </ion-item-group>
+            </ion-card>
+        </ion-slide>
+    </ion-slides>
+    <!-- <div class="tabs">
+        <button ion-button clear color="light" class="tab-button-temp" (click)="goToSlide(1)">Contrato</button>
+        <button ion-button clear color="light" class="tab-button-right" (click)="goToSlide(2)">Elementos</button>
+    </div>-->
 </ion-content>

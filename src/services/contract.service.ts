@@ -14,8 +14,23 @@ export class ContractService {
 
   getContract(_id: string) {
     return this.http.get('https://chaira.udla.edu.co/API_Almacen/api/Almacen/getContrato/' + _id)
+    .timeout(5000)
     .toPromise()
     .then(response => response.json(), this.handleError);
+  }
+
+  getElementsContract(_id: string){
+    return this.http.get('https://chaira.udla.edu.co/API_Almacen/api/Almacen/getElementosSolicitudContrato/' + _id)
+        .timeout(5000)
+        .toPromise()
+        .then(response => response.json(), this.handleError);
+  }
+
+  getInvoices(_id: string){
+    return this.http.get('https://chaira.udla.edu.co/API_Almacen/api/Almacen/getFacturasContrato/' + _id)
+        .timeout(5000)
+        .toPromise()
+        .then(response => response.json(), this.handleError);
   }
 
   handleError(error) {

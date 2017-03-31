@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MenuController, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { MenuController, NavController, NavParams, Slides } from 'ionic-angular';
 
 import { Util } from '../../providers/util';
 import { ProfileSQL } from '../../sql/profile.sql';
@@ -13,8 +13,11 @@ import { LoginPage } from '../login/login';
   providers: [ ProfileSQL, Util ]
 })
 export class HomePage {
-
+	
+	@ViewChild(Slides) slides: Slides;
 	public contract: any;
+	public elements: any;
+	public invoice: any;
 
   constructor(public navCtrl: NavController, 
 	public navParams: NavParams, 
@@ -48,6 +51,8 @@ export class HomePage {
 						if(response.length != 0){
 							this.contract = response[0];
 							console.log(this.contract);
+							this.getElementsContract(ev.target.value);
+							this.getInvoices(ev.target.value);
 						} else {
 							this.util.presentToast('No coincide ningún contrato.');
 						}
@@ -61,5 +66,53 @@ export class HomePage {
 					loader.dismiss();
 				});
 		}
-	}	
+	}
+
+	getElementsContract(_id: string){
+		let loader = this.util.loading();
+		this.contractService.getElementsContract(_id)
+		.then(response => {
+			if(response.status != 'ERROR'){
+				if(response.length != 0){
+					this.elements = response;
+					console.log(this.elements);
+				} else {
+					this.util.presentToast('No hay elementos solicitados.');
+				}
+			} else {
+				this.util.presentToast(response.message);
+			}
+			loader.dismiss();
+		})
+		.catch(error => { 
+			this.util.presentToast('No es posible conectarse al servidor.');
+			loader.dismiss();
+		});
+	}
+
+	getInvoices(_id: string){
+		let loader = this.util.loading();
+		this.contractService.getInvoices(_id)
+		.then(response => {
+			if(response.status != 'ERROR'){
+				if(response.length != 0){
+					this.invoice = response;
+					console.log(this.invoice);
+				} else {
+					this.util.presentToast('No hay facturas pendientes.');
+				}
+			} else {
+				this.util.presentToast(response.message);
+			}
+			loader.dismiss();
+		})
+		.catch(error => { 
+			this.util.presentToast('No es posible conectarse al servidor.');
+			loader.dismiss();
+		});
+	}
+
+	goToSlide(index: number) {
+    this.slides.slideTo(index, 200);
+  }	
 }

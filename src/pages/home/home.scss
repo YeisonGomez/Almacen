@@ -1,0 +1,28 @@
+ion-card.cards-list-demo ion-item-divider {
+    color: map-get($colors, primary);
+}
+
+.align-right {
+    text-align: right;
+}
+
+.tabs {
+    position: absolute;
+    height: 4em;
+    bottom: 0;
+    width: 100%;
+    background-color: map-get($colors, secondary);
+    & .tab-button-temp {
+        display: inline-block;
+        width: 50%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    & .tab-button-right {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 49%;
+    }
+}
