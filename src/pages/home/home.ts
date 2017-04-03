@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, NavController, NavParams, Slides } from 'ionic-angular';
+import { MenuController, NavController, NavParams, Slides, AlertController } from 'ionic-angular';
 
 import { Util } from '../../providers/util';
 import { ProfileSQL } from '../../sql/profile.sql';
 import { ContractService } from '../../services/contract.service';
 
 import { LoginPage } from '../login/login';
+import { InvoicePage } from '../invoice/invoice';
 
 @Component({
   selector: 'page-home',
@@ -18,33 +19,36 @@ export class HomePage {
 	public contract: any;
 	public elements: any;
 	public invoice: any;
+	private loader: any;
+	private count: number = 0;
 
   constructor(public navCtrl: NavController, 
 	public navParams: NavParams, 
 	private profileSQL: ProfileSQL, 
 	private menu: MenuController,
 	private contractService: ContractService,
-	private util: Util) {}
+	private util: Util,
+	public alertCtrl: AlertController) {}
 
   ionViewDidLoad() {
   	this.menu.swipeEnable(true, 'menu1');
-		let loader = this.util.loading();
+		this.loader = this.util.loading();
   	this.profileSQL.isToken().then(data => {
   		if(!data) {
   			this.navCtrl.setRoot(LoginPage);
   		} else {
   			this.profileSQL.getUser();
   		}
-			loader.dismiss();
+			this.loader.dismiss();
 		}).catch(error => {
 			console.log(error);
-			loader.dismiss();
+			this.loader.dismiss();
 		});
   }
 
 	getContract(ev: any){
 		if(!isNaN(ev.target.value) && ev.target.value != ''){
-			let loader = this.util.loading();
+			this.loader = this.util.loading();
 			this.contractService.getContract(ev.target.value)
 			.then(response => {
 					if(response.status != 'ERROR'){
@@ -59,17 +63,14 @@ export class HomePage {
 					} else {
 						this.util.presentToast(response.message);
 					}
-					loader.dismiss();
 				})
 				.catch(error => { 
 					this.util.presentToast('No es posible conectarse al servidor.');
-					loader.dismiss();
 				});
 		}
 	}
 
 	getElementsContract(_id: string){
-		let loader = this.util.loading();
 		this.contractService.getElementsContract(_id)
 		.then(response => {
 			if(response.status != 'ERROR'){
@@ -82,16 +83,15 @@ export class HomePage {
 			} else {
 				this.util.presentToast(response.message);
 			}
-			loader.dismiss();
+			this.dismissLoader();	
 		})
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
-			loader.dismiss();
+			this.dismissLoader();
 		});
 	}
 
 	getInvoices(_id: string){
-		let loader = this.util.loading();
 		this.contractService.getInvoices(_id)
 		.then(response => {
 			if(response.status != 'ERROR'){
@@ -104,15 +104,33 @@ export class HomePage {
 			} else {
 				this.util.presentToast(response.message);
 			}
-			loader.dismiss();
+			this.dismissLoader();
 		})
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
-			loader.dismiss();
+			this.dismissLoader();
 		});
 	}
 
+	showObservation(description) {
+		let alert = this.alertCtrl.create({
+			title: 'Observaciones',
+			subTitle: description,
+			buttons: ['OK']
+		});
+		alert.present();
+	}
+
+	dismissLoader(){
+		if(this.count == 1){
+			this.loader.dismiss();
+			this.count = 0;
+		} else {
+			this.count++;
+		}
+	}
+
 	goToSlide(index: number) {
-    this.slides.slideTo(index, 200);
-  }	
+    	this.slides.slideTo(index, 200);
+  	}	
 }

@@ -9,7 +9,7 @@
 
 <ion-content>
     <ion-searchbar debounce="600" placeholder="Número del contrato" type="number" (ionInput)="getContract($event)"></ion-searchbar>
-    <ion-slides zoom="false" [ngStyle]="{'height': '100%'}" *ngIf="contract">
+    <ion-slides style="overflow-y:scroll" zoom="false" [ngStyle]="{'height': '100%'}" *ngIf="contract">
         <ion-slide>
             <ion-card class="cards-list-demo">
                 <ion-item-group>
@@ -81,6 +81,48 @@
                     </ion-item>
                 </ion-item-group>
             </ion-card>
+        </ion-slide>
+        <ion-slide>
+            <scroll-content>
+                <ion-card class="cards-list-demo" *ngFor="let inv of invoice">
+                    <ion-item-group>
+                        <ion-item-divider color="light">Factura #{{inv.FACT_NUMEROFACTURA}}
+                            <button ion-button icon-left clear item-right>
+                            <ion-icon name="brush"></ion-icon>
+                        </button>
+                        </ion-item-divider>
+                        <ion-item>
+                            <h2>{{inv.FACT_DESCRIPCION}}</h2>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label color="light-text">Fecha registro</ion-label>
+                            <ion-label class="align-right">{{inv.FACT_REGISTRADOFECHA | date: 'dd/MM/yyyy'}}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label color="light-text">Subtotal</ion-label>
+                            <ion-label class="align-right">{{inv.SUBTOTAL | currency:'USD':true:'1.0-2'}}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label color="light-text">Valor total</ion-label>
+                            <ion-label class="align-right">{{inv.VALORTOTAL | currency:'USD':true:'1.0-2'}}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label color="light-text">Estado</ion-label>
+                            <ion-label class="align-right">{{inv.FACT_ESTADO}}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <button ion-button icon-left clear item-left (click)="showObservation(inv.FACT_OBSERVACIONES)">
+                            <ion-icon name="clipboard"></ion-icon>
+                            Observación
+                        </button>
+                            <button ion-button icon-left clear item-right>
+                            <ion-icon name="paper"></ion-icon>
+                            Ver elementos
+                        </button>
+                        </ion-item>
+                    </ion-item-group>
+                </ion-card>
+            </scroll-content>
         </ion-slide>
     </ion-slides>
     <!-- <div class="tabs">
