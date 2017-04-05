@@ -32,7 +32,7 @@ export class HomePage {
 
   ionViewDidLoad() {
   	this.menu.swipeEnable(true, 'menu1');
-		this.loader = this.util.loading();
+	this.loader = this.util.loading();
   	this.profileSQL.isToken().then(data => {
   		if(!data) {
   			this.navCtrl.setRoot(LoginPage);
@@ -119,6 +119,10 @@ export class HomePage {
 			buttons: ['OK']
 		});
 		alert.present();
+	}
+
+	viewInvoicDetail(invoice){
+		this.navCtrl.push(InvoicePage, {invoice: invoice});
 	}
 
 	dismissLoader(){

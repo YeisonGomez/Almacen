@@ -6,6 +6,14 @@ ion-card.cards-list-demo ion-item-divider {
     text-align: right;
 }
 
+.pagemainclass {
+    .slide-zoom {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
 .tabs {
     position: absolute;
     height: 4em;
