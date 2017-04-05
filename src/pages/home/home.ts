@@ -51,22 +51,24 @@ export class HomePage {
 			this.loader = this.util.loading();
 			this.contractService.getContract(ev.target.value)
 			.then(response => {
-					if(response.status != 'ERROR'){
-						if(response.length != 0){
-							this.contract = response[0];
-							console.log(this.contract);
-							this.getElementsContract(ev.target.value);
-							this.getInvoices(ev.target.value);
-						} else {
-							this.util.presentToast('No coincide ningún contrato.');
-						}
+				if(response.status != 'ERROR'){
+					if(response.length != 0){
+						this.contract = response[0];
+						this.getElementsContract(ev.target.value);
+						this.getInvoices(ev.target.value);
 					} else {
-						this.util.presentToast(response.message);
+						this.loader.dismiss();
+						this.util.presentToast('No coincide ningún contrato.');
 					}
-				})
-				.catch(error => { 
-					this.util.presentToast('No es posible conectarse al servidor.');
-				});
+				} else {
+					this.loader.dismiss();
+					this.util.presentToast(response.message);
+				}
+			})
+			.catch(error => { 
+				this.loader.dismiss();
+				this.util.presentToast('No es posible conectarse al servidor.');
+			});
 		}
 	}
 
@@ -76,7 +78,6 @@ export class HomePage {
 			if(response.status != 'ERROR'){
 				if(response.length != 0){
 					this.elements = response;
-					console.log(this.elements);
 				} else {
 					this.util.presentToast('No hay elementos solicitados.');
 				}
@@ -87,7 +88,7 @@ export class HomePage {
 		})
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
-			this.dismissLoader();
+			this.loader.dismiss();
 		});
 	}
 
@@ -98,6 +99,9 @@ export class HomePage {
 				if(response.length != 0){
 					this.invoice = response;
 					console.log(this.invoice);
+					for(var i = 0; i < this.invoice.length; i++){
+						this.invoice[i].state_color = this.util.pinColor(this.invoice[i].FACT_ESTADOALMACEN);
+					}
 				} else {
 					this.util.presentToast('No hay facturas pendientes.');
 				}
@@ -108,7 +112,7 @@ export class HomePage {
 		})
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
-			this.dismissLoader();
+			this.loader.dismiss();
 		});
 	}
 

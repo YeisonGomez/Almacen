@@ -11,6 +11,7 @@ import { InvoicePage } from '../pages/invoice/invoice';
 
 import { Oauth2Service } from '../services/oauth2.service';
 import { ContractService } from '../services/contract.service';
+import { InvoiceService } from '../services/invoice.service';
 import { Util } from '../providers/util';
 
 @NgModule({
@@ -33,6 +34,6 @@ import { Util } from '../providers/util';
     HomePage,
     InvoicePage
   ],
-  providers: [ContractService, Oauth2Service, Util, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [ContractService, InvoiceService, Oauth2Service, Util, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

@@ -26,4 +26,16 @@ export class Util {
       return loader;
   }
 
+  public pinColor(state: string): any {
+    if(state == 'A'){
+      return { id: 'A', name: 'Aceptado', color: 'green' };
+    } else if(state == 'P'){
+      return { id: 'P', name: 'Pendiente', color: 'orange' };
+    } else if(state == 'C'){
+      return { id: 'C', name: 'Anulado', color: 'gray' };
+    } else if(state == 'R'){
+      return { id: 'R', name: 'Rechazado', color: 'red' };
+    }
+  }
+
 }

@@ -9,7 +9,7 @@
 
 <ion-content>
     <ion-searchbar debounce="600" placeholder="Número del contrato" type="number" (ionInput)="getContract($event)"></ion-searchbar>
-    <ion-slides class="pagemainclass" zoom="false" [ngStyle]="{'height': '100%'}" *ngIf="contract">
+    <ion-slides class="pagemainclass" zoom="false" *ngIf="contract">
         <ion-slide>
             <ion-card class="cards-list-demo">
                 <ion-item-group>
@@ -73,12 +73,12 @@
                         <ion-label color="light-text">Cantidad faltante</ion-label>
                         <ion-label class="align-right">{{element.CANT_FALTANTE}}</ion-label>
                     </ion-item>
-                    <ion-item>
+                    <!--<ion-item>
                         <button ion-button icon-left clear item-right>
                             <ion-icon name="clipboard"></ion-icon>
                             Ver facturas
                         </button>
-                    </ion-item>
+                    </ion-item>-->
                 </ion-item-group>
             </ion-card>
         </ion-slide>
@@ -107,7 +107,7 @@
                     </ion-item>
                     <ion-item>
                         <ion-label color="light-text">Estado</ion-label>
-                        <ion-label class="align-right">{{inv.FACT_ESTADO}}</ion-label>
+                        <ion-label class="align-right"><span [ngStyle]="{'color': inv.state_color.color }">● {{inv.state_color.name}}</span></ion-label>
                     </ion-item>
                     <ion-item>
                         <button ion-button icon-left clear item-left (click)="showObservation(inv.FACT_OBSERVACIONES)">
