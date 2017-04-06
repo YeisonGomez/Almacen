@@ -1,16 +1,106 @@
-// http://ionicframework.com/docs/v2/theming/
+.card-profile {
+    background-image: url("https://c.slashgear.com/wp-content/uploads/2014/10/unnamed-6.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-color: green;
+    padding-left: 2em!important;
+    margin: 0 !important;
+    width: 100%;
+    min-height: 10em;
+    padding-bottom: .5em;
+    & img {
+        margin-top: 2em;
+        margin-bottom: 1em;
+        width: 5em;
+        height: 5em;
+        border-radius: 50%;
+    }
+    & h2,
+    p {
+        color: whitesmoke!important;
+    }
+}
 
+.ion-card {
+    position: relative;
+    text-align: center!important;
+}
 
-// App Global Sass
-// --------------------------------------------------
-// Put style rules here that you want to apply globally. These
-// styles are for the entire app and not just one component.
-// Additionally, this file can be also used as an entry point
-// to import other Sass files to be included in the output CSS.
-//
-// Shared Sass variables, which can be used to adjust Ionic's
-// default Sass variables, belong in "theme/variables.scss".
-//
-// To declare rules for a specific mode, create a child rule
-// for the .md, .ios, or .wp mode classes. The mode class is
-// automatically applied to the <body> element in the app.
+.card-title {
+    position: absolute;
+    top: 36%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+}
+
+.card-subtitle {
+    font-size: 1.0em;
+    position: absolute;
+    top: 52%;
+    width: 100%;
+    color: #fff;
+}
+
+.card-footer {
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+}
+
+.btn--rad0 {
+    border-radius: 0px;
+}
+
+.btn--bder-rigth {
+    border-right: 1px solid #fff;
+}
+
+.card-md--mrgnone {
+    text-align: center!important;
+    font-size: 1.4rem;
+    background: #fff;
+    margin: 0!important;
+    width: 100%;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+.header-md--plane::after {
+    background-image: none!important;
+}
+
+.wdth-47 {
+    width: 47%;
+}
+
+.mrgt-1em {
+    margin-top: 1em;
+}
+
+.button-group {
+    .col {
+        &:first-child:not(:last-child) {
+            padding-right: 0;
+            .button {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+        &:not(:first-child):not(:last-child) {
+            padding-right: 0;
+            padding-left: 0;
+            .button {
+                border-radius: 0;
+            }
+        }
+        &:last-child:not(:first-child) {
+            padding-left: 0;
+            .button {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+    }
+}

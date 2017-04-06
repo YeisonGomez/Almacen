@@ -4,6 +4,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
+import { ContractPage } from '../pages/contract/contract';
 
 import { ProfileSQL } from '../sql/profile.sql';
 
@@ -14,8 +15,8 @@ import { ProfileSQL } from '../sql/profile.sql';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage; 
-
+  rootPage: any = ContractPage; 
+  user: any;
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, private profileSQL: ProfileSQL) {
@@ -23,6 +24,17 @@ export class MyApp {
     this.pages = [
       { title: 'Contratos', component: HomePage }
     ];
+
+    this.profileSQL.isToken().then(data => {
+  		if(data) {
+        this.profileSQL.getUser().then(user => {
+          this.user = user;
+          console.log(this.user);
+        });
+  		} 
+		}).catch(error => {
+			console.log(error);
+		});
 
   }
 

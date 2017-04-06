@@ -8,11 +8,13 @@
 
 
 <ion-content padding>
+    <ion-searchbar placeholder="Buscar elemento" type="text" [(ngModel)]="search"></ion-searchbar>
+    {{search}}
     <ion-card class="cards-list-demo">
         <ion-item-group>
-            <ion-item-divider color="light">Factura</ion-item-divider>
+            <ion-item-divider color="light"><span [ngStyle]="{'color': invoice.state_color.color }">● Factura</span></ion-item-divider>
             <ion-item>
-                <h2><span [ngStyle]="{'color': invoice.state_color.color }">●</span> {{invoice.FACT_DESCRIPCION}}</h2>
+                <h2>{{invoice.FACT_DESCRIPCION}}</h2>
             </ion-item>
             <ion-item>
                 <ion-label color="light-text">Subtotal</ion-label>

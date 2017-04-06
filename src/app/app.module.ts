@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms'
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
+import { ContractPage } from '../pages/contract/contract';
 import { InvoicePage } from '../pages/invoice/invoice';
 
 import { Oauth2Service } from '../services/oauth2.service';
@@ -19,6 +20,7 @@ import { Util } from '../providers/util';
     MyApp,
     LoginPage,
     HomePage,
+    ContractPage,
     InvoicePage
   ],
   imports: [
@@ -32,6 +34,7 @@ import { Util } from '../providers/util';
     MyApp,
     LoginPage,
     HomePage,
+    ContractPage,
     InvoicePage
   ],
   providers: [ContractService, InvoiceService, Oauth2Service, Util, {provide: ErrorHandler, useClass: IonicErrorHandler}]

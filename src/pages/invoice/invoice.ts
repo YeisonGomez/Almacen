@@ -2,16 +2,18 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { InvoiceService } from '../../services/invoice.service';
 import { Util } from '../../providers/util';
+import { SearchFilter } from '../../pipes/search_ngfor.pipe';
 
 @Component({
   selector: 'page-invoice',
   templateUrl: 'invoice.html',
-  providers: [ Util ]
+  providers: [ Util, SearchFilter ]
 })
 export class InvoicePage {
 
   public invoice: any;
   public invoice_detail: any;
+  public search: any = { FACT_DESCRIPCION: '' };
 
   constructor(
     public navCtrl: NavController, 
@@ -54,7 +56,12 @@ export class InvoicePage {
     .then(data => {
       if(data != undefined && data[0]._TIPO == "notificacion"){
         this.invoice_detail[index].state_color = this.util.pinColor(ev);
-        this.invoice.state_color = this.invoice_detail[index].state_color;
+        
+        if(this.invoice_detail[index].state_color.id == 'A'){
+          this.invoice.state_color =  { id: 'A', name: 'Aceptado', color: 'green' };
+        } else {
+          this.invoice.state_color =  { id: 'R', name: 'Rechazado', color: 'red' };
+        }
         this.util.presentToast(data[0]._MENSAJE);
       } else {
         this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');

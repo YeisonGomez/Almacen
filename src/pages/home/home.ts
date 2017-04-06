@@ -32,18 +32,6 @@ export class HomePage {
 
   ionViewDidLoad() {
   	this.menu.swipeEnable(true, 'menu1');
-	this.loader = this.util.loading();
-  	this.profileSQL.isToken().then(data => {
-  		if(!data) {
-  			this.navCtrl.setRoot(LoginPage);
-  		} else {
-  			this.profileSQL.getUser();
-  		}
-			this.loader.dismiss();
-		}).catch(error => {
-			console.log(error);
-			this.loader.dismiss();
-		});
   }
 
 	getContract(ev: any){
@@ -101,6 +89,7 @@ export class HomePage {
 					console.log(this.invoice);
 					for(var i = 0; i < this.invoice.length; i++){
 						this.invoice[i].state_color = this.util.pinColor(this.invoice[i].FACT_ESTADOALMACEN);
+						this.invoice[i].state_color_copy = this.invoice[i].state_color;
 					}
 				} else {
 					this.util.presentToast('No hay facturas pendientes.');
@@ -113,6 +102,25 @@ export class HomePage {
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
 			this.loader.dismiss();
+		});
+	}
+
+	changeStateInvoice(ev, fa_id, index){
+		let loader = this.util.loading();
+		this.contractService.changeStateInvoice(ev, fa_id, 'Ejemplo')
+		.then(data => {
+			console.log(data);
+			if(data != undefined && data[0]._TIPO == "notificacion"){
+				this.invoice[index].state_color = this.util.pinColor(ev);
+				this.util.presentToast(data[0]._MENSAJE);
+			} else {
+				this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
+			}
+			loader.dismiss();
+		})
+		.catch(error => {
+			loader.dismiss();
+			this.util.presentToast('No es posible conectarse al servidor.');
 		});
 	}
 
