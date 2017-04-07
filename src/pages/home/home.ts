@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, NavController, NavParams, Slides, AlertController } from 'ionic-angular';
+import { MenuController, NavController, NavParams, Slides, AlertController, ModalController } from 'ionic-angular';
 
 import { Util } from '../../providers/util';
 import { ProfileSQL } from '../../sql/profile.sql';
 import { ContractService } from '../../services/contract.service';
+import { ModalInvoicesComponent } from '../../components/modal-invoices/modal-invoices';
 
 import { LoginPage } from '../login/login';
 import { InvoicePage } from '../invoice/invoice';
@@ -19,6 +20,7 @@ export class HomePage {
 	public contract: any;
 	public elements: any;
 	public invoice: any;
+	public current_slide: number = 0;
 	private loader: any;
 	private count: number = 0;
 
@@ -28,37 +30,17 @@ export class HomePage {
 	private menu: MenuController,
 	private contractService: ContractService,
 	private util: Util,
-	public alertCtrl: AlertController) {}
+	public alertCtrl: AlertController,
+	public modalCtrl: ModalController) {}
 
   ionViewDidLoad() {
   	this.menu.swipeEnable(true, 'menu1');
+	this.contract = this.navParams.get('contract');
+	
+	this.loader = this.util.loading();
+	this.getElementsContract(this.contract.COCO_ID);
+	this.getInvoices(this.contract.COCO_ID);
   }
-
-	getContract(ev: any){
-		if(!isNaN(ev.target.value) && ev.target.value != ''){
-			this.loader = this.util.loading();
-			this.contractService.getContract(ev.target.value)
-			.then(response => {
-				if(response.status != 'ERROR'){
-					if(response.length != 0){
-						this.contract = response[0];
-						this.getElementsContract(ev.target.value);
-						this.getInvoices(ev.target.value);
-					} else {
-						this.loader.dismiss();
-						this.util.presentToast('No coincide ningún contrato.');
-					}
-				} else {
-					this.loader.dismiss();
-					this.util.presentToast(response.message);
-				}
-			})
-			.catch(error => { 
-				this.loader.dismiss();
-				this.util.presentToast('No es posible conectarse al servidor.');
-			});
-		}
-	}
 
 	getElementsContract(_id: string){
 		this.contractService.getElementsContract(_id)
@@ -73,6 +55,25 @@ export class HomePage {
 				this.util.presentToast(response.message);
 			}
 			this.dismissLoader();	
+		})
+		.catch(error => { 
+			this.util.presentToast('No es posible conectarse al servidor.');
+			this.loader.dismiss();
+		});
+	}
+
+	getInvoiceByElement(_id: string){
+		this.loader = this.util.loading();
+		this.contractService.getInvoiceByElement(_id)
+		.then(response => {
+			if(response != undefined && response.length != 0){
+				console.log(response);
+				let profileModal = this.modalCtrl.create(ModalInvoicesComponent, { userId: 8675309 });
+   				profileModal.present();
+			} else {
+				this.util.presentToast('No hay facturas para este elemento.');
+			}
+			this.loader.dismiss();
 		})
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
@@ -147,6 +148,11 @@ export class HomePage {
 	}
 
 	goToSlide(index: number) {
+		this.current_slide = index;
     	this.slides.slideTo(index, 200);
+  	}
+
+	slideChanged() {
+		this.current_slide = this.slides.getActiveIndex();
   	}	
 }

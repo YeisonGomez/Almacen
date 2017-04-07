@@ -13,7 +13,7 @@ export class InvoicePage {
 
   public invoice: any;
   public invoice_detail: any;
-  public search: any = { FACT_DESCRIPCION: '' };
+  public invoice_detail_copy: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -38,7 +38,8 @@ export class InvoicePage {
         for(var i = 0; i < this.invoice_detail.length; i++){
 						this.invoice_detail[i].state_color = this.util.pinColor(this.invoice_detail[i].FADE_ESTADOALMACEN); 
             this.invoice_detail[i].state_color_copy = this.invoice_detail[i].state_color;
-					}
+        }
+        this.invoice_detail_copy = this.invoice_detail;
       } else {
         this.util.presentToast('No se encontraron elementos para esta factura.');  
       }
@@ -62,6 +63,7 @@ export class InvoicePage {
         } else {
           this.invoice.state_color =  { id: 'R', name: 'Rechazado', color: 'red' };
         }
+        this.invoice_detail_copy = this.invoice_detail;
         this.util.presentToast(data[0]._MENSAJE);
       } else {
         this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
@@ -72,6 +74,16 @@ export class InvoicePage {
       loader.dismiss();
       this.util.presentToast('No es posible conectarse al servidor.');
     });
+  }
+
+  onInput(event: any) {
+    this.invoice_detail = this.invoice_detail_copy;
+    let val = event.target.value;
+    if (val && val.trim() != '') {
+      this.invoice_detail = this.invoice_detail.filter((item) => {
+        return (item.CLAS_NOMBRE.toLowerCase().indexOf(val.toLowerCase()) > -1) || (item.CLAS_ID.toString().toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
   }
 
 }

@@ -10,6 +10,8 @@ import { HomePage } from '../pages/home/home';
 import { ContractPage } from '../pages/contract/contract';
 import { InvoicePage } from '../pages/invoice/invoice';
 
+import { ModalInvoicesComponent } from '../components/modal-invoices/modal-invoices';
+
 import { Oauth2Service } from '../services/oauth2.service';
 import { ContractService } from '../services/contract.service';
 import { InvoiceService } from '../services/invoice.service';
@@ -21,7 +23,8 @@ import { Util } from '../providers/util';
     LoginPage,
     HomePage,
     ContractPage,
-    InvoicePage
+    InvoicePage,
+    ModalInvoicesComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -35,7 +38,8 @@ import { Util } from '../providers/util';
     LoginPage,
     HomePage,
     ContractPage,
-    InvoicePage
+    InvoicePage,
+    ModalInvoicesComponent
   ],
   providers: [ContractService, InvoiceService, Oauth2Service, Util, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

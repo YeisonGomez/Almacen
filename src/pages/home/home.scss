@@ -2,6 +2,10 @@ ion-card.cards-list-demo ion-item-divider {
     color: map-get($colors, primary);
 }
 
+.active-tab {
+    border-bottom: 2px solid white;
+}
+
 .align-right {
     text-align: right;
 }

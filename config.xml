@@ -25,6 +25,7 @@
   <allow-navigation href="http://172.27.12.194:8100"/>
   <allow-navigation href="http://172.27.28.234:8100"/>
   <allow-navigation href="http://172.27.31.217:8100"/>
+  <allow-navigation href="http://172.27.21.200:8100"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
