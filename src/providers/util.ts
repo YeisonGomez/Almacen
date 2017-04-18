@@ -28,13 +28,13 @@ export class Util {
 
   public pinColor(state: string): any {
     if(state == 'A'){
-      return { id: 'A', name: 'Aceptado', color: 'green' };
+      return { id: 'A', name: 'ACEPTADO', color: 'green' };
     } else if(state == 'P'){
-      return { id: 'P', name: 'Pendiente', color: 'orange' };
+      return { id: 'P', name: 'PENDIENTE', color: 'orange' };
     } else if(state == 'C'){
-      return { id: 'C', name: 'Anulado', color: 'gray' };
+      return { id: 'C', name: 'ANULADO', color: 'gray' };
     } else if(state == 'R'){
-      return { id: 'R', name: 'Rechazado', color: 'red' };
+      return { id: 'R', name: 'RECHAZADO', color: 'red' };
     }
   }
 

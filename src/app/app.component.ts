@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { LoginPage } from '../pages/login/login';
@@ -19,7 +19,7 @@ export class MyApp {
   user: any;
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, private profileSQL: ProfileSQL) {
+  constructor(public platform: Platform, private profileSQL: ProfileSQL, public alertCtrl: AlertController) {
     this.initializeApp();
     this.pages = [
       { title: 'Contratos', component: HomePage }
@@ -50,7 +50,26 @@ export class MyApp {
   }
 
   logout(){
-    this.profileSQL.clear();
-    this.nav.setRoot(LoginPage);
+    this.showConfirm();
+  }
+
+  showConfirm() {
+    let confirm = this.alertCtrl.create({
+      title: '¿Estas seguro?',
+      message: 'Cerraremos la sesión que actualmente esta iniciada.',
+      buttons: [
+        {
+          text: 'Cancelar'
+        },
+        {
+          text: 'Vale',
+          handler: () => {
+            //this.profileSQL.clear();
+            this.nav.setRoot(LoginPage);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 }

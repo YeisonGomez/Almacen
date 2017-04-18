@@ -62,15 +62,7 @@ export class ContractPage {
         this.util.presentToast('No es posible conectarse al servidor.');
     });
   }
-/*
-CLAS_ID
-CLAS_NOMBRE
-COCD_CANTIDADENTREGADA: 24
-COCD_CANTIDADFALTANTE: -12
-COCD_CANTIDADSOLICITADA: 12
-FADE_ESTADOALMACEN
-FACT_REGISTRADOFECHA
-*/
+
   getContract(contract: any){
     this.navCtrl.push(HomePage, { contract: contract });	
 	}

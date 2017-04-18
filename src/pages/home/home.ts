@@ -67,8 +67,7 @@ export class HomePage {
 		this.contractService.getInvoiceByElement(_id)
 		.then(response => {
 			if(response != undefined && response.length != 0){
-				console.log(response);
-				let profileModal = this.modalCtrl.create(ModalInvoicesComponent, { userId: 8675309 });
+				let profileModal = this.modalCtrl.create(ModalInvoicesComponent, { invoices: response });
    				profileModal.present();
 			} else {
 				this.util.presentToast('No hay facturas para este elemento.');
