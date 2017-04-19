@@ -18,8 +18,7 @@ export class ContractPage {
   private loader: any;
   public contracts: any;
   public contract_copy: any;
-  public not_404: boolean;
-  public not_data: boolean = false;
+  public not_data: boolean = true;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -31,7 +30,6 @@ export class ContractPage {
 
   ionViewDidLoad() {
     this.menu.swipeEnable(true, 'menu1');
-    this.loader = this.util.loading();
     this.profileSQL.isToken().then(data => {
         if(!data) {
           this.navCtrl.setRoot(LoginPage);
@@ -40,21 +38,19 @@ export class ContractPage {
         }
     }).catch(error => {
         console.log(error);
-        this.loader.dismiss();
     });
   }
 
   getAllContract(callback?: any){
+    this.loader = this.util.loading();
     this.contractService.getContractAll()
     .then(data => {
-      this.not_404 = true;
       if(data != undefined && data.length != 0){
         this.contracts = data;
         this.contract_copy = this.contracts;
-        console.log(this.contracts);
         this.not_data = true;
       } else {
-        this.not_data = true;
+        this.not_data = false;
         this.util.presentToast('No hay contratos pendientes.');
       }
       this.loader.dismiss();
@@ -63,7 +59,7 @@ export class ContractPage {
       }
     })
     .catch(error => {
-        this.not_404 = false;
+        this.not_data = false;
         this.loader.dismiss();
         this.util.presentToast('No es posible conectarse al servidor.');
     });

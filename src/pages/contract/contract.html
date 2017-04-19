@@ -5,22 +5,38 @@
     </button>
         <ion-title>Contratos vigentes</ion-title>
     </ion-navbar>
-</ion-header>
+</ion-header> 
 
-<ion-content>
+<ion-content class="card-background-page">
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Delice para actualizar" refreshingSpinner="circles" refreshingText="Cargando...">
         </ion-refresher-content>
     </ion-refresher>
     <ion-searchbar placeholder="Buscar contrato" type="text" (ionInput)="onInput($event)"></ion-searchbar>
-    <ion-list>
-        <ion-item *ngFor="let contract of contracts" (click)="getContract(contract)">
-            <ion-icon name="paper" item-left></ion-icon>
-            <h2>{{contract.NAME_PROVEEDOR}}</h2>
-            <h4>{{contract.COCO_DESCRIPCION}}</h4>
-            <p>{{contract.COCO_FECHAINICIO | date: 'dd/MM/yyyy'}} - {{contract.COCO_FECHATERMINACION | date: 'dd/MM/yyyy'}}</p>
-            <p>CDP: {{contract.SOCO_CDPASIGNADO | currency:'USD':true:'1.0-2' }}</p>
-            <button ion-button clear item-right>Ver</button>
-        </ion-item>
-    </ion-list>
+    <div [hidden]="!not_data">
+        <ion-list>
+            <ion-item *ngFor="let contract of contracts" (click)="getContract(contract)">
+                <ion-icon name="paper" item-left></ion-icon>
+                <h2>{{contract.NAME_PROVEEDOR}}</h2>
+                <h4>{{contract.COCO_DESCRIPCION}}</h4>
+                <p>{{contract.COCO_FECHAINICIO | date: 'dd/MM/yyyy'}} - {{contract.COCO_FECHATERMINACION | date: 'dd/MM/yyyy'}}</p>
+                <p>CDP: {{contract.SOCO_CDPASIGNADO | currency:'USD':true:'1.0-2' }}</p>
+                <button ion-button clear item-right>Ver</button>
+            </ion-item>
+        </ion-list>
+    </div>
+    <div class=wrap [hidden]="not_data">
+        <div class="content-img">  
+          <img src="./assets/not_data.svg"/>
+        </div>
+        <div class="text-wrap">
+          <span class="title">
+            No hay contratos
+          </span>
+          <span class="subtitle">
+            Deslice hacia abajo para buscar contratos vigentes
+          </span>
+        </div>
+    </div>
+    
 </ion-content>

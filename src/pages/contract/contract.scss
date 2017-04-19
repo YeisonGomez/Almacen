@@ -1,3 +1,31 @@
 page-contract {
+	
+}
 
+.wrap{
+  heigth:100%;
+  top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+}
+
+.content-img{
+  display: block;
+    width: 60%;
+    margin: 0  auto 5% auto;
+  img{
+    width:100%;
+    opacity:.5;
+  }   
+}
+.text-wrap{
+  display:block;
+  text-align:center;
+  .title{
+    display:block;
+    font-size:26px;
+  }
+  .subtitle{
+    color:#979797;
+  }
 }
