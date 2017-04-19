@@ -5,7 +5,7 @@ import { Network } from '@ionic-native/network';
 import { Oauth2Service } from '../../services/oauth2.service';
 import { ProfileSQL } from '../../sql/profile.sql';
 import { Util } from '../../providers/util';
-import { HomePage } from '../home/home';
+import { ContractPage } from '../contract/contract';
 	
 declare var window: any;
 
@@ -37,12 +37,11 @@ export class LoginPage {
 		this.loading = true;
 		this.platform.ready().then(() => {
 		    this.chairaLogin().then(success => {
-
 		    	this.oauth2Service.getAccessToken(success.detail)
 				.then(response => {
 					this.loading = false;
 					this.profileSQL.setUser(response);
-					this.navCtrl.setRoot(HomePage);
+					this.navCtrl.setRoot(ContractPage);
 				})
 				.catch(error => console.log(error))
 

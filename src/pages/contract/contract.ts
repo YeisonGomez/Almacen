@@ -18,14 +18,16 @@ export class ContractPage {
   private loader: any;
   public contracts: any;
   public contract_copy: any;
+  public not_404: boolean;
+  public not_data: boolean = false;
 
   constructor(public navCtrl: NavController,
-  public navParams: NavParams,
-  private profileSQL: ProfileSQL, 
-	private menu: MenuController,
-	private contractService: ContractService,
-	private util: Util,
-	public alertCtrl: AlertController) {}
+    public navParams: NavParams,
+    private profileSQL: ProfileSQL, 
+  	private menu: MenuController,
+  	private contractService: ContractService,
+  	private util: Util,
+  	public alertCtrl: AlertController) {}
 
   ionViewDidLoad() {
     this.menu.swipeEnable(true, 'menu1');
@@ -45,11 +47,14 @@ export class ContractPage {
   getAllContract(callback?: any){
     this.contractService.getContractAll()
     .then(data => {
+      this.not_404 = true;
       if(data != undefined && data.length != 0){
         this.contracts = data;
         this.contract_copy = this.contracts;
         console.log(this.contracts);
+        this.not_data = true;
       } else {
+        this.not_data = true;
         this.util.presentToast('No hay contratos pendientes.');
       }
       this.loader.dismiss();
@@ -58,6 +63,7 @@ export class ContractPage {
       }
     })
     .catch(error => {
+        this.not_404 = false;
         this.loader.dismiss();
         this.util.presentToast('No es posible conectarse al servidor.');
     });

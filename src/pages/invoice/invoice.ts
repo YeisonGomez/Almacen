@@ -32,7 +32,6 @@ export class InvoicePage {
     let loader = this.util.loading();
     this.invoiceService.getDetailInvoice(this.invoice.FACT_ID)
     .then(data => {
-      console.log(data);
       if(data.length != 0){
         this.invoice_detail = data;
         for(var i = 0; i < this.invoice_detail.length; i++){
@@ -57,12 +56,13 @@ export class InvoicePage {
     .then(data => {
       if(data != undefined && data[0]._TIPO == "notificacion"){
         this.invoice_detail[index].state_color = this.util.pinColor(ev);
-        
-        if(this.invoice_detail[index].state_color.id == 'A'){
+
+        if(this.validateInvoiceAccept(this.invoice_detail)){
           this.invoice.state_color =  { id: 'A', name: 'Aceptado', color: 'green' };
         } else {
           this.invoice.state_color =  { id: 'R', name: 'Rechazado', color: 'red' };
         }
+        
         this.invoice_detail_copy = this.invoice_detail;
         this.util.presentToast(data[0]._MENSAJE);
       } else {
@@ -74,6 +74,15 @@ export class InvoicePage {
       loader.dismiss();
       this.util.presentToast('No es posible conectarse al servidor.');
     });
+  }
+
+  validateInvoiceAccept(array: any): boolean{
+    for (var i = 0; i < array.length; ++i) {
+      if(array[i].state_color.id != 'A'){
+        return false;
+      }
+    }
+    return true;
   }
 
   onInput(event: any) {
