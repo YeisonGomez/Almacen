@@ -25,14 +25,13 @@ export class InvoicePage {
 
   ionViewDidLoad() {
     this.getDetailInvoice();
-    console.log(this.invoice);
   }
 
   getDetailInvoice(){
     let loader = this.util.loading();
     this.invoiceService.getDetailInvoice(this.invoice.FACT_ID)
     .then(data => {
-      if(data.length != 0){
+      if(data != undefined && data.length != 0){
         this.invoice_detail = data;
         for(var i = 0; i < this.invoice_detail.length; i++){
 						this.invoice_detail[i].state_color = this.util.pinColor(this.invoice_detail[i].FADE_ESTADOALMACEN); 
@@ -51,7 +50,7 @@ export class InvoicePage {
   }
 
   changeState(ev, fade_id, index){
-    let loader = this.util.loading();
+    let loader = this.util.loading(); 
     this.invoiceService.changeState(ev, fade_id)
     .then(data => {
       if(data != undefined && data[0]._TIPO == "notificacion"){
@@ -62,7 +61,7 @@ export class InvoicePage {
         } else {
           this.invoice.state_color =  { id: 'R', name: 'Rechazado', color: 'red' };
         }
-        
+        this.invoice.state_color_copy = this.invoice.state_color;
         this.invoice_detail_copy = this.invoice_detail;
         this.util.presentToast(data[0]._MENSAJE);
       } else {

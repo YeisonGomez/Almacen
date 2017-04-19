@@ -87,7 +87,8 @@
         <ion-slide>
             <ion-card class="cards-list-demo" *ngFor="let inv of invoice; let i = index;">
                 <ion-item-group>
-                    <ion-item-divider color="light">Factura #{{inv.FACT_NUMEROFACTURA}}
+                    <ion-item-divider color="light">
+                        <span [ngStyle]="{'color': inv.state_color.color }">Factura #{{inv.FACT_NUMEROFACTURA}}</span>
                     </ion-item-divider>
                     <ion-item>
                         <h2>{{inv.FACT_DESCRIPCION}}</h2>
@@ -95,7 +96,7 @@
                     <ion-item>
                         <ion-label color="light-text">Fecha registro</ion-label>
                         <ion-label class="align-right">{{inv.FACT_REGISTRADOFECHA | date: 'dd/MM/yyyy'}}</ion-label>
-                    </ion-item>
+                    </ion-item> 
                     <ion-item>
                         <ion-label color="light-text">Subtotal</ion-label>
                         <ion-label class="align-right">{{inv.SUBTOTAL | currency:'USD':true:'1.0-2'}}</ion-label>
@@ -105,8 +106,8 @@
                         <ion-label class="align-right">{{inv.VALORTOTAL | currency:'USD':true:'1.0-2'}}</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label color="light-text">Estado</ion-label>
-                        <ion-select (ionChange)="changeStateInvoice($event, inv.FACT_ID, i)" [(ngModel)]="inv.state_color_copy.id" multiple="false" cancelText="Cancelar" okText="Editar" [ngStyle]="{'color': inv.state_color.color }">
+                        <ion-label color="light-text">Estado</ion-label> 
+                        <ion-select [disabled]="inv.state_color.id == 'A'" (ionChange)="changeStateInvoice($event, inv.FACT_ID, i)" [(ngModel)]="inv.state_color_copy.id" multiple="false" cancelText="Cancelar" okText="Editar" [ngStyle]="{'color': inv.state_color.color }">
                             <ion-option value="A">Aceptado</ion-option>
                             <ion-option value="P">Pendiente</ion-option>
                             <ion-option value="C">Anulado</ion-option>

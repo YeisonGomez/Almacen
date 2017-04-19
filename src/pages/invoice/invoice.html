@@ -11,7 +11,7 @@
     <ion-searchbar placeholder="Buscar elemento" type="text" (ionInput)="onInput($event)"></ion-searchbar>
     <ion-card class="cards-list-demo">
         <ion-item-group>
-            <ion-item-divider color="light"><span [ngStyle]="{'color': invoice.state_color.color }">● Factura #{{invoice.FACT_NUMEROFACTURA}}</span></ion-item-divider>
+            <ion-item-divider color="light"><span [ngStyle]="{'color': invoice.state_color.color }">Factura #{{invoice.FACT_NUMEROFACTURA}}</span></ion-item-divider>
             <ion-item>
                 <h2>{{invoice.FACT_DESCRIPCION}}</h2>
             </ion-item>
@@ -26,7 +26,7 @@
         </ion-item-group>
         <ion-item-group *ngFor="let invde of invoice_detail; let i = index;">
             <ion-item-divider color="light">
-                <span [ngStyle]="{'color': invde.state_color.color }">● Elemento #{{invde.CLAS_ID}}</span>
+                <span [ngStyle]="{'color': invde.state_color.color }">Elemento #{{invde.CLAS_ID}}</span>
             </ion-item-divider>
             <ion-item>
                 <h2><strong>{{invde.CLAS_NOMBRE}}</strong></h2>
@@ -61,7 +61,7 @@
             </ion-item>
             <ion-item>
                 <ion-label color="light-text">Estado</ion-label>
-                <ion-select (ionChange)="changeState($event, invde.FADE_ID, i)" [(ngModel)]="invde.state_color_copy.id" multiple="false" cancelText="Cancelar" okText="Editar" [ngStyle]="{'color': invde.state_color.color }">
+                <ion-select [disabled]="invoice.state_color.id == 'A'" (ionChange)="changeState($event, invde.FADE_ID, i)" [(ngModel)]="invde.state_color_copy.id" multiple="false" cancelText="Cancelar" okText="Editar" [ngStyle]="{'color': invde.state_color.color }">
                     <ion-option value="A">Aceptado</ion-option>
                     <ion-option value="P">Pendiente</ion-option>
                     <ion-option value="C">Anulado</ion-option>

@@ -29,7 +29,6 @@ export class MyApp {
   		if(data) {
         this.profileSQL.getUser().then(user => {
           this.user = user;
-          console.log(this.user);
         });
   		} 
 		}).catch(error => {
@@ -64,7 +63,7 @@ export class MyApp {
         {
           text: 'Vale',
           handler: () => {
-            //this.profileSQL.clear();
+            this.profileSQL.clear();
             this.nav.setRoot(LoginPage);
           }
         }

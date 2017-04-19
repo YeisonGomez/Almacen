@@ -45,7 +45,7 @@ export class HomePage {
 	getElementsContract(_id: string){
 		this.contractService.getElementsContract(_id)
 		.then(response => {
-			if(response.status != 'ERROR'){
+			if(response != undefined && response.status != 'ERROR'){
 				if(response.length != 0){
 					this.elements = response;
 				} else {
@@ -83,10 +83,9 @@ export class HomePage {
 	getInvoices(_id: string){
 		this.contractService.getInvoices(_id)
 		.then(response => {
-			if(response.status != 'ERROR'){
+			if(response != undefined && response.status != 'ERROR'){
 				if(response.length != 0){
 					this.invoice = response;
-					console.log(this.invoice);
 					for(var i = 0; i < this.invoice.length; i++){
 						this.invoice[i].state_color = this.util.pinColor(this.invoice[i].FACT_ESTADOALMACEN);
 						this.invoice[i].state_color_copy = this.invoice[i].state_color;
@@ -109,7 +108,6 @@ export class HomePage {
 		let loader = this.util.loading();
 		this.contractService.changeStateInvoice(ev, fa_id, 'Ejemplo')
 		.then(data => {
-			console.log(data);
 			if(data != undefined && data[0]._TIPO == "notificacion"){
 				this.invoice[index].state_color = this.util.pinColor(ev);
 				this.util.presentToast(data[0]._MENSAJE);
