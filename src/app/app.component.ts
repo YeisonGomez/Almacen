@@ -28,7 +28,9 @@ export class MyApp {
     this.profileSQL.isToken().then(data => {
   		if(data) {
         this.profileSQL.getUser().then(user => {
-          this.user = user;
+          this.profileSQL.currentUser.subscribe((userData) => { 
+            this.user = userData
+          });
         });
   		} 
 		}).catch(error => {

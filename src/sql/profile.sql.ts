@@ -1,11 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ProfileSQL {
 
   private storage: any;
   private user: any;
+  public currentUserSubject = new BehaviorSubject<User>(new User());
+  public currentUser = this.currentUserSubject.asObservable().distinctUntilChanged();
 
   constructor(private storage2: Storage) {
     this.storage = storage2; 
@@ -30,13 +33,28 @@ export class ProfileSQL {
     this.storage.set('profile_municipality', profile.MUNICIPIO);
     this.storage.set('profile_state', profile.ESTADO);
     this.storage.set('profile_photo', profile.FOTO);
+
+    this.currentUserSubject.next({
+      profile_name: profile.NOMBRES,
+      profile_lastname: profile.APELLIDOS,
+      profile_gender: profile.GENERO,
+      profile_rh: profile.RH,
+      profile_email: profile.CORREO,
+      profile_rol: profile.ROL,
+      profile_departament: profile.DEPARTAMENTO,
+      profile_municipality: profile.MUNICIPIO,
+      profile_state: profile.ESTADO,
+      profile_photo: profile.FOTO
+    });
   }
 
   public getUser(): Promise<any>{
     let context = this;
+    let currentUserSubject: any = this.currentUserSubject;
     return new Promise(function(resolve, reject) {
       context.getMultiple(['profile_name', 'profile_lastname', 'profile_gender', 'profile_rh', 'profile_email', 'profile_rol', 'profile_departament', 'profile_municipality', 'profile_state', 'profile_photo'])
       .then((data) => {
+        currentUserSubject.next(data);
         resolve(data);
       }).catch(error => {
         reject(error);
@@ -96,5 +114,17 @@ export class ProfileSQL {
   public clear(){
     this.storage.clear();
   }
+}
 
+class User {
+  public profile_name: string;
+  public profile_lastname: string;
+  public profile_gender: string;
+  public profile_rh: string;
+  public profile_email: string;
+  public profile_rol: string;
+  public profile_departament: string;
+  public profile_municipality: string;
+  public profile_state: string;
+  public profile_photo: string;
 }
