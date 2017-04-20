@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { InvoiceService } from '../../services/invoice.service';
 import { Util } from '../../providers/util';
-import { SearchFilter } from '../../pipes/search_ngfor.pipe';
 
 @Component({
   selector: 'page-invoice',
   templateUrl: 'invoice.html',
-  providers: [ Util, SearchFilter ]
+  providers: [ Util ]
 })
 export class InvoicePage {
 

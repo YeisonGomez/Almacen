@@ -1,19 +1,21 @@
-ion-card.cards-list-demo ion-item-divider {
-    color: map-get($colors, primary);
-}
+page-invoice {
+    ion-card.cards-list-demo ion-item-divider {
+        color: map-get($colors, primary);
+    }
 
-.scroll-content {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    display: block;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    will-change: scroll-position;
-    contain: size style layout;
-    margin-bottom: 0px;
+    .scroll-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        display: block;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        will-change: scroll-position;
+        contain: size style layout;
+        margin-bottom: 0px!important;
+    }
 }

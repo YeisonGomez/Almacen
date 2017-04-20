@@ -14,7 +14,7 @@
     </ion-refresher>
     <ion-searchbar placeholder="Buscar contrato" type="text" (ionInput)="onInput($event)"></ion-searchbar>
     <div [hidden]="!not_data">
-        <ion-list>
+        <ion-list *ngIf="contracts">
             <ion-item *ngFor="let contract of contracts" (click)="getContract(contract)">
                 <ion-icon name="paper" item-left></ion-icon>
                 <h2>{{contract.NAME_PROVEEDOR}}</h2>

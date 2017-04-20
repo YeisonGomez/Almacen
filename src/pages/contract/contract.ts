@@ -16,7 +16,7 @@ import { HomePage } from '../home/home';
 export class ContractPage {
 
   private loader: any;
-  public contracts: any;
+  public contracts: any = [];
   public contract_copy: any;
   public not_data: boolean = true;
 
@@ -45,18 +45,23 @@ export class ContractPage {
     this.loader = this.util.loading();
     this.contractService.getContractAll()
     .then(data => {
-      if(data != undefined && data.length != 0){
-        this.contracts = data;
-        this.contract_copy = this.contracts;
-        this.not_data = true;
+      if(data != undefined && data.status != 'ERROR'){
+        if(data.length != 0){
+          this.contracts = data;
+          this.contract_copy = this.contracts;
+          this.not_data = true;
+        } else {
+          this.not_data = false;
+          this.util.presentToast('No hay contratos pendientes.');
+        }
+        if(callback != undefined){ 
+          callback();
+        }
       } else {
         this.not_data = false;
-        this.util.presentToast('No hay contratos pendientes.');
+        this.util.presentToast('No es posible conectarse al servidor.');
       }
       this.loader.dismiss();
-      if(callback != undefined){
-        callback();
-      }
     })
     .catch(error => {
         this.not_data = false;

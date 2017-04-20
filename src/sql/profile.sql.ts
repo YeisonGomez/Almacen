@@ -72,7 +72,6 @@ export class ProfileSQL {
     let storage = this.storage;
     return new Promise(function(resolve, reject) {
       storage.get('refresh_token').then(data => {
-        console.log(data);
         resolve(data);
       });
     });
