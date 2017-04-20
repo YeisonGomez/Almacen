@@ -16,8 +16,9 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = ContractPage; 
-  user: any;
+  public user: any;
   pages: Array<{title: string, component: any}>;
+  public loadingInit: boolean = false;
 
   constructor(public platform: Platform, private profileSQL: ProfileSQL, public alertCtrl: AlertController) {
     this.initializeApp();
@@ -25,15 +26,19 @@ export class MyApp {
       { title: 'Contratos', component: HomePage }
     ];
 
+    this.profileSQL.currentUser.subscribe((userData) => { 
+      this.user = userData;
+     });
+
     this.profileSQL.isToken().then(data => {
   		if(data) {
-        this.profileSQL.getUser().then(user => {
-          this.profileSQL.currentUser.subscribe((userData) => { 
-            this.user = userData
-          });
-        });
-  		} 
+        this.profileSQL.getUser().then(user => {});
+  		} else {
+        this.nav.setRoot(LoginPage);
+      }
+      this.loadingInit = true;
 		}).catch(error => {
+      this.loadingInit = true;
 			console.log(error);
 		});
 

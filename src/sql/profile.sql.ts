@@ -12,7 +12,7 @@ export class ProfileSQL {
 
   constructor(private storage2: Storage) {
     this.storage = storage2; 
-  }
+  } 
 
   public setUser(data: any){
     let profile = JSON.parse(data.scope)[0];
@@ -33,19 +33,6 @@ export class ProfileSQL {
     this.storage.set('profile_municipality', profile.MUNICIPIO);
     this.storage.set('profile_state', profile.ESTADO);
     this.storage.set('profile_photo', profile.FOTO);
-
-    this.currentUserSubject.next({
-      profile_name: profile.NOMBRES,
-      profile_lastname: profile.APELLIDOS,
-      profile_gender: profile.GENERO,
-      profile_rh: profile.RH,
-      profile_email: profile.CORREO,
-      profile_rol: profile.ROL,
-      profile_departament: profile.DEPARTAMENTO,
-      profile_municipality: profile.MUNICIPIO,
-      profile_state: profile.ESTADO,
-      profile_photo: profile.FOTO
-    });
   }
 
   public getUser(): Promise<any>{
@@ -114,6 +101,10 @@ export class ProfileSQL {
   public clear(){
     this.storage.clear();
   }
+
+  public setUserObservable(user: any){
+    this.currentUserSubject.next(user);
+  }
 }
 
 class User {
@@ -127,4 +118,18 @@ class User {
   public profile_municipality: string;
   public profile_state: string;
   public profile_photo: string;
+
+  setProfile(profile_name: string, profile_lastname: string, profile_gender: string, profile_rh: string, profile_email: string, profile_rol: string, profile_departament: string,
+    profile_municipality: string, profile_state: string, profile_photo: string){
+    this.profile_name = profile_name;
+    this.profile_lastname = profile_lastname;
+    this.profile_gender = profile_gender;
+    this.profile_rh = profile_rh;
+    this.profile_email = profile_email;
+    this.profile_rol = profile_rol;
+    this.profile_departament = profile_departament;
+    this.profile_municipality = profile_municipality;
+    this.profile_state = profile_state;
+    this.profile_photo = profile_photo;
+  }
 }

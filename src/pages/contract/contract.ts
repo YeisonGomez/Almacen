@@ -54,18 +54,21 @@ export class ContractPage {
           this.not_data = false;
           this.util.presentToast('No hay contratos pendientes.');
         }
-        if(callback != undefined){ 
-          callback();
-        }
       } else {
         this.not_data = false;
         this.util.presentToast('No es posible conectarse al servidor.');
       }
       this.loader.dismiss();
+      if(callback != undefined){ 
+        callback();
+      }
     })
     .catch(error => {
         this.not_data = false;
         this.loader.dismiss();
+        if(callback != undefined){ 
+          callback();
+        }
         this.util.presentToast('No es posible conectarse al servidor.');
     });
   }

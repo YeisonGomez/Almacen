@@ -12,11 +12,12 @@ declare var window: any;
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [ Oauth2Service, ProfileSQL, Util, Network]
+  providers: [ Oauth2Service, Util, Network]
 })
 export class LoginPage {
 
-	loading: boolean;
+	private loader: any;
+	private wifi: boolean = true
 
 	constructor(
 		public navCtrl: NavController, 
@@ -30,28 +31,51 @@ export class LoginPage {
 
 	ionViewDidLoad() {
 		this.menu.swipeEnable(false, 'menu1');
-		//this.network.onConnect();
+
+		this.network.onDisconnect().subscribe(() => {
+		  console.log('network was disconnected :-(');
+		  this.wifi = false;
+		});
+
+		//disconnectSubscription.unsubscribe();
+
+		this.network.onConnect().subscribe(() => {
+		  setTimeout(() => {
+		    if (this.network.type === 'wifi') {
+		    	this.wifi = true;
+		      console.log('we got a wifi connection, woohoo!');
+		    }
+		  }, 3000);
+		});
+
 	}
  
 	login(){
-		this.loading = true;
-		this.platform.ready().then(() => {
-		    this.chairaLogin().then(success => {
-		    	this.oauth2Service.getAccessToken(success.detail)
-				.then(response => {
-					this.loading = false;
-					this.profileSQL.setUser(response);
-					this.navCtrl.setRoot(ContractPage);
-				})
-				.catch(error => console.log(error))
+		if(this.wifi){
+			this.loader = this.util.loading();
+			this.platform.ready().then(() => {
+			    this.chairaLogin().then(success => {
+			    	this.oauth2Service.getAccessToken(success.detail)
+					.then(response => {
+						this.profileSQL.setUser(response);
+						this.profileSQL.getUser().then(user => {
+							this.loader.dismiss();
+				  			this.navCtrl.setRoot(ContractPage);
+						});
+					})
+					.catch(error => console.log(error))
 
-		    }, (error) => {
-		    	this.loading = false;
-		        if(error.state == 'error_noti'){
-		        	this.util.presentToast(error.detail);
-		        }
-		    });
-		}); 
+			    }, (error) => {
+			    	this.loader.dismiss();
+			        if(error.state == 'error_noti'){
+			        	this.util.presentToast(error.detail);
+			        }
+			    });
+			}); 
+		} else {
+			this.util.presentToast('No tienes conexión a internet.');
+		}
+		
 	}
 
   	public chairaLogin(): Promise<any> {
