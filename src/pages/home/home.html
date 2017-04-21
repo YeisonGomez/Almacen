@@ -107,7 +107,8 @@
                     </ion-item>
                     <ion-item>
                         <ion-label color="light-text">Estado</ion-label> 
-                        <ion-select [disabled]="inv.state_color.id == 'A'" (ionChange)="changeStateInvoice($event, inv.FACT_ID, i)" [(ngModel)]="inv.state_color_copy.id" multiple="false" cancelText="Cancelar" okText="Editar" [ngStyle]="{'color': inv.state_color.color }">
+                        <ion-select [disabled]="inv.state_color.id == 'A'" (ionChange)="changeStateInvoice($event, inv.FACT_ID, i)" 
+                        [(ngModel)]="inv.state_color_copy.id" multiple="false" cancelText="Cancelar" okText="Editar" [ngStyle]="{'color': inv.state_color.color }">
                             <ion-option value="A">Aceptado</ion-option>
                             <ion-option value="P">Pendiente</ion-option>
                             <ion-option value="C">Anulado</ion-option>

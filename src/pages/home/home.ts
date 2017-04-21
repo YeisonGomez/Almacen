@@ -88,7 +88,7 @@ export class HomePage {
 					this.invoice = response;
 					for(var i = 0; i < this.invoice.length; i++){
 						this.invoice[i].state_color = this.util.pinColor(this.invoice[i].FACT_ESTADOALMACEN);
-						this.invoice[i].state_color_copy = this.invoice[i].state_color;
+						this.invoice[i].state_color_copy = Object.assign({}, this.invoice[i].state_color);
 					}
 				} else {
 					this.util.presentToast('No hay facturas pendientes.');
@@ -105,21 +105,49 @@ export class HomePage {
 	}
 
 	changeStateInvoice(ev, fa_id, index){
-		let loader = this.util.loading();
-		this.contractService.changeStateInvoice(ev, fa_id, 'Ejemplo')
-		.then(data => {
-			if(data != undefined && data[0]._TIPO == "notificacion"){
-				this.invoice[index].state_color = this.util.pinColor(ev);
-				this.util.presentToast(data[0]._MENSAJE);
-			} else {
-				this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
-			}
-			loader.dismiss();
-		})
-		.catch(error => {
-			loader.dismiss();
-			this.util.presentToast('No es posible conectarse al servidor.');
-		});
+		let title = (ev == 'A')? '¿Estas seguro?' : 'Agregar descripción';
+		let description = (ev == 'A')? 'No es posible cambiar el estado déspues de aceptado.' : 'La descripción no es obligatoria.';
+	    let prompt = this.alertCtrl.create({
+	      title: title,
+	      message: description,
+	      inputs: [
+	        {
+	          name: 'description',
+	          placeholder: 'Descripción'
+	        },
+	      ],
+	      buttons: [
+	        {
+	          text: 'Cancelar', 
+	          handler: data => {
+	            this.invoice[index].state_color_copy = Object.assign({}, this.invoice[index].state_color);
+	          }
+	        },
+	        {
+	          text: 'Vale',
+	          handler: data => {
+	            let loader = this.util.loading();
+					this.contractService.changeStateInvoice(ev, fa_id, data.description)
+					.then(data => {
+						if(data != undefined && data[0]._TIPO == "notificacion"){
+							this.invoice[index].state_color = this.util.pinColor(ev);
+							this.invoice[index].state_color_copy = Object.assign({}, this.invoice[index].state_color);
+							this.util.presentToast(data[0]._MENSAJE);
+						} else {
+							this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
+						}
+						loader.dismiss();
+					})
+					.catch(error => {
+						this.invoice[index].state_color_copy = Object.assign({}, this.invoice[index].state_color);
+						loader.dismiss();
+						this.util.presentToast('No es posible conectarse al servidor.');
+					});
+	          }
+	        }
+	      ]
+	    });
+	    prompt.present();
 	}
 
 	showObservation(description) {
