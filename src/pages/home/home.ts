@@ -105,17 +105,13 @@ export class HomePage {
 	}
 
 	changeStateInvoice(ev, fa_id, index){
-		let title = (ev == 'A')? '¿Estas seguro?' : 'Agregar descripción';
+		let title = (ev == 'A')? '¿Estás seguro?' : 'Agregar descripción';
 		let description = (ev == 'A')? 'No es posible cambiar el estado déspues de aceptado.' : 'La descripción no es obligatoria.';
+		let placeholder = (ev == 'A')? 'Todos los elementos fueron aprobados' : 'Al menos un elemento hace falta';
 	    let prompt = this.alertCtrl.create({
 	      title: title,
 	      message: description,
-	      inputs: [
-	        {
-	          name: 'description',
-	          placeholder: 'Descripción'
-	        },
-	      ],
+	      inputs: [{ name: 'description', placeholder: 'Descripción' }],
 	      buttons: [
 	        {
 	          text: 'Cancelar', 
@@ -127,22 +123,24 @@ export class HomePage {
 	          text: 'Vale',
 	          handler: data => {
 	            let loader = this.util.loading();
-					this.contractService.changeStateInvoice(ev, fa_id, data.description)
-					.then(data => {
-						if(data != undefined && data[0]._TIPO == "notificacion"){
-							this.invoice[index].state_color = this.util.pinColor(ev);
-							this.invoice[index].state_color_copy = Object.assign({}, this.invoice[index].state_color);
-							this.util.presentToast(data[0]._MENSAJE);
-						} else {
-							this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
-						}
-						loader.dismiss();
-					})
-					.catch(error => {
+	            let description = data.description;
+				this.contractService.changeStateInvoice(ev, fa_id, description)
+				.then(data => {
+					if(data != undefined && data[0]._TIPO == "notificacion"){
+						this.invoice[index].state_color = this.util.pinColor(ev);
 						this.invoice[index].state_color_copy = Object.assign({}, this.invoice[index].state_color);
-						loader.dismiss();
-						this.util.presentToast('No es posible conectarse al servidor.');
-					});
+						this.invoice[index].FACT_OBSERVACIONES = description;
+						this.util.presentToast(data[0]._MENSAJE);
+					} else {
+						this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
+					}
+					loader.dismiss();
+				})
+				.catch(error => {
+					this.invoice[index].state_color_copy = Object.assign({}, this.invoice[index].state_color);
+					loader.dismiss();
+					this.util.presentToast('No es posible conectarse al servidor.');
+				});
 	          }
 	        }
 	      ]
@@ -154,7 +152,7 @@ export class HomePage {
 		let alert = this.alertCtrl.create({
 			title: 'Observaciones',
 			subTitle: description,
-			buttons: ['OK']
+			buttons: ['Vale']
 		});
 		alert.present();
 	}
