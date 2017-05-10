@@ -18,7 +18,6 @@ export class MyApp {
   rootPage: any = ContractPage; 
   public user: any;
   pages: Array<{title: string, component: any}>;
-  public loadingInit: boolean = false;
 
   constructor(public platform: Platform, private profileSQL: ProfileSQL, public alertCtrl: AlertController) {
     this.initializeApp();
@@ -28,7 +27,7 @@ export class MyApp {
 
     this.profileSQL.currentUser.subscribe((userData) => { 
       this.user = userData;
-     });
+    }); 
 
     this.profileSQL.isToken().then(data => {
   		if(data) {
@@ -36,9 +35,7 @@ export class MyApp {
   		} else {
         this.nav.setRoot(LoginPage);
       }
-      this.loadingInit = true;
 		}).catch(error => {
-      this.loadingInit = true;
 			console.log(error);
 		});
 
@@ -46,7 +43,8 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      StatusBar.styleDefault();
+      //StatusBar.styleDefault();
+      StatusBar.backgroundColorByHexString('#006500');
       Splashscreen.hide();
     });
   }

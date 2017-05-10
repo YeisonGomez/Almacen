@@ -19,6 +19,7 @@ export class ContractPage {
   public contracts: any = [];
   public contract_copy: any;
   public not_data: boolean = true;
+  public loadingInit: boolean = false;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -26,20 +27,23 @@ export class ContractPage {
   	private menu: MenuController,
   	private contractService: ContractService,
   	private util: Util,
-  	public alertCtrl: AlertController) {}
+  	public alertCtrl: AlertController) {
 
-  ionViewDidLoad() {
     this.menu.swipeEnable(true, 'menu1');
     this.profileSQL.isToken().then(data => {
+      this.loadingInit = true;
         if(!data) {
           this.navCtrl.setRoot(LoginPage);
         } else {
           this.getAllContract();
         }
     }).catch(error => {
+        this.loadingInit = true;
         console.log(error);
     });
   }
+
+  ionViewDidLoad() {}
 
   getAllContract(callback?: any){
     this.loader = this.util.loading();

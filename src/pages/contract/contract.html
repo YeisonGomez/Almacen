@@ -3,13 +3,14 @@
         <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-        <ion-title>Contratos vigentes</ion-title>
+        <ion-title [hidden]="!loadingInit">Contratos vigentes</ion-title>
+        <ion-title [hidden]="loadingInit">Almacén</ion-title>
     </ion-navbar>
 </ion-header> 
 
-<ion-content class="card-background-page">
+<ion-content class="card-background-page" [hidden]="!loadingInit">
     <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Delice para actualizar" refreshingSpinner="circles" refreshingText="Cargando...">
+        <ion-refresher-content pullMax="100" pullingIcon="arrow-dropdown" pullingText="Delice para actualizar" refreshingSpinner="circles" refreshingText="Cargando...">
         </ion-refresher-content>
     </ion-refresher>
     <ion-searchbar placeholder="Buscar contrato" type="text" (ionInput)="onInput($event)"></ion-searchbar>

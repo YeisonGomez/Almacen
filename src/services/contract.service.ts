@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http } from '@angular/http';
+import { ApiProvider } from '../providers/api.provider';
 
 @Injectable()
 export class ContractService {
@@ -7,54 +8,32 @@ export class ContractService {
   data : any;
   http : any;
 
-  constructor(http: Http) {
+  constructor(http: Http, public api: ApiProvider) {
     this.http = http;
     this.data = null;
   }
 
   getContractAll(){
-    return this.http.get('https://chaira.udla.edu.co/API_Almacen/api/Almacen/getContratosPendientes')
-      .timeout(5000)
-      .toPromise()
-      .then(response => response.json(), this.handleError);
+    return this.api.GET(this.api.administrativo, '/getContratosPendientes');
   }
   
   getContract(_id: string) {
-    return this.http.get('https://chaira.udla.edu.co/API_Almacen/api/Almacen/getContrato/' + _id)
-    .timeout(5000)
-    .toPromise()
-    .then(response => response.json(), this.handleError);
+    return this.api.GET(this.api.administrativo, '/getContrato/' + _id);  
   }
 
   getInvoiceByElement(_id: string){
-    return this.http.get('https://chaira.udla.edu.co/API_Almacen/api/Almacen/getFacturasElementoSolicitado/' + _id)
-        .timeout(5000)
-        .toPromise()
-        .then(response => response.json(), this.handleError);
+    return this.api.GET(this.api.administrativo, '/getFacturasElementoSolicitado/' + _id);
   }
 
   getElementsContract(_id: string){
-    return this.http.get('https://chaira.udla.edu.co/API_Almacen/api/Almacen/getElementosSolicitudContrato/' + _id)
-        .timeout(5000)
-        .toPromise()
-        .then(response => response.json(), this.handleError);
+    return this.api.GET(this.api.administrativo, '/getElementosSolicitudContrato/' + _id);
   }
 
   getInvoices(_id: string){
-    return this.http.get('https://chaira.udla.edu.co/API_Almacen/api/Almacen/getFacturasContrato/' + _id)
-        .timeout(5000)
-        .toPromise()
-        .then(response => response.json(), this.handleError);
+    return this.api.GET(this.api.administrativo, '/getFacturasContrato/' + _id);
   }
 
   changeStateInvoice(state: string, id: string, observation: string){
-    return this.http.post('https://chaira.udla.edu.co/API_Almacen/api/Almacen/ActualizarEstadoFactura', { id: id, estado: state, observaciones: observation })
-      .timeout(5000)
-      .toPromise()
-      .then(response => response.json(), this.handleError);
-  }
-
-  handleError(error) {
-    return error.json().message || { status: 'ERROR', message: 'No es posible conectarse al servidor.'};
+    return this.api.POST(this.api.administrativo, '/ActualizarEstadoFactura', { id: id, estado: state, observaciones: observation });
   }
 }
