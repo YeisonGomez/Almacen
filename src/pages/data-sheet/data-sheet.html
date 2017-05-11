@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>data_sheet</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-searchbar placeholder="Buscar elemento" type="text" (ionInput)="onInput($event)"></ion-searchbar>
+	
+	<div [hidden]="!not_data">
+        <ion-list *ngIf="elements">
+            <ion-item *ngFor="let element of elements">
+                <ion-icon name="paper" item-left></ion-icon>
+                <h2>{{element.NAME_PROVEEDOR}}</h2>
+                <h4>{{element.COCO_DESCRIPCION}}</h4>
+                <p>{{element.COCO_FECHAINICIO | date: 'dd/MM/yyyy'}} - {{element.COCO_FECHATERMINACION | date: 'dd/MM/yyyy'}}</p>
+                <p>CDP: {{element.SOCO_CDPASIGNADO | currency:'USD':true:'1.0-2' }}</p>
+                <button ion-button clear item-right>Ver</button>
+            </ion-item>
+        </ion-list>
+    </div>
+    <div class=wrap [hidden]="not_data">
+        <div class="content-img">  
+          <img src="./assets/not_data.svg"/>
+        </div>
+        <div class="text-wrap">
+          <span class="title">
+            No hay elementos
+          </span>
+          <span class="subtitle">
+            Deslice hacia abajo para buscar contratos vigentes
+          </span>
+        </div>
+    </div>
+
+</ion-content>

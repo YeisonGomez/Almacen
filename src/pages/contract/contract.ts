@@ -26,8 +26,7 @@ export class ContractPage {
     private profileSQL: ProfileSQL, 
   	private menu: MenuController,
   	private contractService: ContractService,
-  	private util: Util,
-  	public alertCtrl: AlertController) {
+  	private util: Util) {
 
     this.menu.swipeEnable(true, 'menu1');
     this.profileSQL.isToken().then(data => {
