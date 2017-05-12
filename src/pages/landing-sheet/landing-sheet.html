@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+        <ion-title>Ficha técnica</ion-title>
+    </ion-navbar>
+</ion-header> 
+
+<ion-content class="card-background-page">
+    <div class="in-code">
+	        <ion-item>
+			    <ion-label floating>Ingresa el código del elemento</ion-label>
+			    <ion-input type="number" [(ngModel)]="param_search"></ion-input>
+	            <button ion-button clear item-right (click)="getElementByCode(param_search)" style="width: 40px; height: 40px;">
+	                <ion-icon style="font-size: 2em" name="search"></ion-icon>
+	            </button>
+		  	</ion-item>
+        <div>
+		    <p class="code-text">o escanea el código QR</p>
+	  	</div>
+        <button style="width: 60px; height: 60px;" ion-button clear icon-only color="dark" (click)="scan()">
+            <ion-icon class="code-icon" name="camera"></ion-icon>
+        </button>
+    </div>
+</ion-content>

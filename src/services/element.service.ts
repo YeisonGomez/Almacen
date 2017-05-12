@@ -10,8 +10,8 @@ export class ElementService {
     this.data = null;
   }
 
-  getElementByCode(code: string){
-    return this.api.GET(this.api.almacen, '/getElementoPorCodigo/' + code);
+  getElementByCode(_id: string){
+    return this.api.GET(this.api.almacen, '/getElementoPorCodigo/' + _id);
   }
 
   getClasificatorElement(_id: string){
@@ -23,6 +23,6 @@ export class ElementService {
   }
 
   getElementCaracteristics(_id: string){
-    return this.api.GET(this.api.almacen, '/getElementosCaracteristicas/' + _id);
+    return this.api.GET(this.api.almacen, '/getElementoCaracteristicas/' + _id);
   }
 }

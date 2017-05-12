@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { ContractPage } from '../pages/contract/contract';
 import { DataSheetPage } from '../pages/data-sheet/data-sheet';
+import { LandingSheetPage } from '../pages/landing-sheet/landing-sheet';
 import { InvoicePage } from '../pages/invoice/invoice';
 
 import { ModalInvoicesComponent } from '../components/modal-invoices/modal-invoices';
@@ -29,6 +30,7 @@ import { ApiProvider } from '../providers/api.provider';
     ContractPage,
     InvoicePage,
     DataSheetPage,
+    LandingSheetPage,
     ModalInvoicesComponent
   ],
   imports: [
@@ -45,6 +47,7 @@ import { ApiProvider } from '../providers/api.provider';
     ContractPage,
     InvoicePage,
     DataSheetPage,
+    LandingSheetPage,
     ModalInvoicesComponent
   ],
   providers: [

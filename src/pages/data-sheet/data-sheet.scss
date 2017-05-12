@@ -1,3 +1,64 @@
 page-data-sheet {
+	ion-card.cards-list-demo ion-item-divider {
+        color: map-get($colors, primary);
+    }
 
+    .active-tab {
+        border-bottom: 2px solid white;
+    }
+
+    .align-right {
+        text-align: right;
+    }
+
+    .scroll-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        display: block;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        will-change: scroll-position;
+        contain: size style layout;
+        margin-bottom: 30px!important;
+    }
+
+    .pagemainclass {
+        .slide-zoom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+        .swiper-wrapper {
+            height: 95%;
+        }
+    }
+
+    .tabs {
+        position: absolute;
+        height: 4em;
+        bottom: 0;
+        width: 100%;
+        background-color: map-get($colors, secondary);
+        & .tab-button-temp {
+            display: inline-block;
+            width: 50%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        & .tab-button-right {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 49%;
+        }
+    }
 }

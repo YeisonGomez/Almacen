@@ -4,7 +4,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
-import { DataSheetPage } from '../pages/data-sheet/data-sheet';
+import { LandingSheetPage } from '../pages/landing-sheet/landing-sheet';
 import { ContractPage } from '../pages/contract/contract';
 
 import { ProfileSQL } from '../sql/profile.sql';
@@ -16,15 +16,15 @@ import { ProfileSQL } from '../sql/profile.sql';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = ContractPage; 
+  rootPage: any = LandingSheetPage; 
   public user: any;
   pages: Array<{title: string, component: any}>; 
 
   constructor(public platform: Platform, private profileSQL: ProfileSQL, public alertCtrl: AlertController) {
     this.initializeApp();
     this.pages = [
-      { title: 'Contratos', component: HomePage },
-      { title: 'Ficha técnica', component: DataSheetPage }
+      { title: 'Contratos', component: ContractPage },
+      { title: 'Ficha técnica', component: LandingSheetPage }
     ];
 
     this.profileSQL.currentUser.subscribe((userData) => { 

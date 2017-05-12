@@ -1,39 +1,110 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>data_sheet</ion-title>
-  </ion-navbar>
-
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Ficha técnica</ion-title>
+    </ion-navbar>
 </ion-header>
-
-
 <ion-content padding>
-	<ion-searchbar placeholder="Buscar elemento" type="text" (ionInput)="onInput($event)"></ion-searchbar>
-	
-	<div [hidden]="!not_data">
-        <ion-list *ngIf="elements">
-            <ion-item *ngFor="let element of elements">
-                <ion-icon name="paper" item-left></ion-icon>
-                <h2>{{element.NAME_PROVEEDOR}}</h2>
-                <h4>{{element.COCO_DESCRIPCION}}</h4>
-                <p>{{element.COCO_FECHAINICIO | date: 'dd/MM/yyyy'}} - {{element.COCO_FECHATERMINACION | date: 'dd/MM/yyyy'}}</p>
-                <p>CDP: {{element.SOCO_CDPASIGNADO | currency:'USD':true:'1.0-2' }}</p>
-                <button ion-button clear item-right>Ver</button>
-            </ion-item>
-        </ion-list>
-    </div>
-    <div class=wrap [hidden]="not_data">
-        <div class="content-img">  
-          <img src="./assets/not_data.svg"/>
-        </div>
-        <div class="text-wrap">
-          <span class="title">
-            No hay elementos
-          </span>
-          <span class="subtitle">
-            Deslice hacia abajo para buscar contratos vigentes
-          </span>
-        </div>
-    </div>
-
+    <ion-searchbar placeholder="Buscar elemento" type="text" (ionInput)="getElementByCode($event)"></ion-searchbar>
+    <ion-slides class="pagemainclass" zoom="false" *ngIf="elements" (ionSlideDidChange)="slideChanged()">
+        <!--INFORMACION GENERAL-->
+        <ion-slide>
+            <ion-card class="cards-list-demo">
+                <ion-item-group>
+                    <ion-item-divider color="light">
+                        <span>Información general</span>
+                    </ion-item-divider>
+                    <ion-item>
+                        <h2><strong>{{elements[0].ELEM_NOMBRE}}</strong></h2>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Descripción</ion-label>
+                    </ion-item>
+                    <ion-label class="align-right">{{elements[0].ELEM_DESCRIPCION}}</ion-label>
+                    <ion-item>
+                        <ion-label color="light-text">Componentes</ion-label>
+                        <ion-label class="align-right">{{elements[0].ELEM_COMPONENTES}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Serial</ion-label>
+                        <ion-label class="align-right">{{elements[0].ELEM_SERIAL}}</ion-label>
+                    </ion-item>
+                </ion-item-group>
+            </ion-card>
+            <ion-card class="cards-list-demo" *ngFor="let clas of clasificator;">
+                <ion-item-group>
+                    <ion-item-divider color="light">
+                        <span>Clasificador</span>
+                    </ion-item-divider>
+                    <ion-item>
+                        <ion-label color="light-text">Segmento #{{clas.CLAS_IDVISUAL_SEGMENTO}}</ion-label>
+                    </ion-item>
+                    <ion-label class="align-right">{{clas.CLAS_NOMBRE_SEGMENTO}}</ion-label>
+                    <ion-item>
+                        <ion-label color="light-text">Clase #{{clas.CLAS_IDVISUAL_CLASE}}</ion-label>
+                    </ion-item>
+                    <ion-label class="align-right">{{clas.CLAS_NOMBRE_CLASE}}</ion-label>
+                    <ion-item>
+                        <ion-label color="light-text">Familia #{{clas.CLAS_IDVISUAL_FAMILIA}}</ion-label>
+                    </ion-item>
+                    <ion-label class="align-right">{{clas.CLAS_NOMBRE_FAMILIA}}</ion-label>
+                </ion-item-group>
+            </ion-card>
+        </ion-slide>
+        <!--INFORMACION GENERAL-->
+        <!--ELEMENTO-->
+        <ion-slide>
+            <ion-card class="cards-list-demo">
+                <ion-item-group>
+                    <ion-item-divider color="light">Elemento solicitado</ion-item-divider>
+                    <ion-item>
+                        <h2>Aca Movimientos</h2>
+                        <p>Código: 66</p>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Cantidad solicitada</ion-label>
+                        <ion-label class="align-right">Aca</ion-label>
+                    </ion-item>
+                </ion-item-group>
+            </ion-card>
+        </ion-slide>
+        <!--ELEMENTO-->
+        <!--CARACTERISTICA-->
+        <ion-slide>
+            <ion-card class="cards-list-demo" *ngFor="let inv of invoice; let i = index;">
+                <ion-item-group>
+                    <ion-item-divider color="light">
+                        <span>Factura #66</span>
+                    </ion-item-divider>
+                    <ion-item>
+                        <h2>Aca vienen Caracteristicas</h2>
+                    </ion-item>
+                    <!--<ion-item>
+                        <ion-label color="light-text">Fecha registro</ion-label>
+                        <ion-label class="align-right">{{inv.FACT_REGISTRADOFECHA | date: 'dd/MM/yyyy'}}</ion-label>
+                    </ion-item>-->                
+                </ion-item-group>
+            </ion-card>
+        </ion-slide>
+        <!--CARACTERISTICA-->
+    </ion-slides>
 </ion-content>
+<ion-footer>
+    <ion-toolbar style="padding: 0;" color="primary">
+        <ion-grid class="button-group" style="padding: 0;">
+            <ion-row>
+                <ion-col>
+                    <button ion-button block style="color: white" clear (click)="goToSlide(0)" [ngClass]="{ 'active-tab' : this.current_slide == 0 }">Elemento</button>
+                </ion-col>
+                <ion-col>
+                    <button ion-button block style="color: white" clear (click)="goToSlide(1)" [ngClass]="{ 'active-tab' : this.current_slide == 1 }">Movimientos</button>
+                </ion-col>
+                <ion-col>
+                    <button ion-button block style="color: white" clear (click)="goToSlide(2)" [ngClass]="{ 'active-tab' : this.current_slide == 2 }">Caracteristicas</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

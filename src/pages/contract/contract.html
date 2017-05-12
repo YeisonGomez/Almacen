@@ -10,7 +10,7 @@
 
 <ion-content class="card-background-page" [hidden]="!loadingInit">
     <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content pullMax="100" pullingIcon="arrow-dropdown" pullingText="Delice para actualizar" refreshingSpinner="circles" refreshingText="Cargando...">
+        <ion-refresher-content pullMax="100" pullingIcon="arrow-dropdown" pullingText="Delice para actualizar" refreshingSpinner="circles">
         </ion-refresher-content>
     </ion-refresher>
     <ion-searchbar placeholder="Buscar contrato" type="text" (ionInput)="onInput($event)"></ion-searchbar>

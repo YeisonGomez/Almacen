@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, MenuController } from 'ionic-angular';
 
 import { Util } from '../../providers/util';
 import { ProfileSQL } from '../../sql/profile.sql';
@@ -18,7 +18,7 @@ export class ContractPage {
   private loader: any;
   public contracts: any = [];
   public contract_copy: any;
-  public not_data: boolean = true;
+  public not_data: boolean = false;
   public loadingInit: boolean = false;
 
   constructor(public navCtrl: NavController,
