@@ -45,7 +45,7 @@ export class ContractPage {
   ionViewDidLoad() {}
 
   getAllContract(callback?: any){
-    this.loader = this.util.loading();
+    this.util.loading();
     this.contractService.getContractAll()
     .then(data => {
       if(data != undefined && data.status != 'ERROR'){
@@ -61,14 +61,14 @@ export class ContractPage {
         this.not_data = false;
         this.util.presentToast('No es posible conectarse al servidor.');
       }
-      this.loader.dismiss();
+      this.util.loadingDismiss();
       if(callback != undefined){ 
         callback();
       }
     })
     .catch(error => {
         this.not_data = false;
-        this.loader.dismiss();
+        this.util.loadingDismiss();
         if(callback != undefined){ 
           callback();
         }
@@ -79,7 +79,6 @@ export class ContractPage {
   getContract(contract: any){
     this.navCtrl.push(HomePage, { contract: contract });	
 	}
-
 
   onInput(event: any) {
     this.contracts = this.contract_copy;

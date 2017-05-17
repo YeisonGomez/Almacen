@@ -21,7 +21,6 @@ export class HomePage {
 	public elements: any;
 	public invoice: any;
 	public current_slide: number = 0;
-	private loader: any;
 	private count: number = 0;
 
   constructor(public navCtrl: NavController, 
@@ -37,12 +36,12 @@ export class HomePage {
   	this.menu.swipeEnable(true, 'menu1');
 	this.contract = this.navParams.get('contract');
 	
-	this.loader = this.util.loading();
 	this.getElementsContract(this.contract.COCO_ID);
 	this.getInvoices(this.contract.COCO_ID);
   }
 
 	getElementsContract(_id: string){
+		this.util.loading();
 		this.contractService.getElementsContract(_id)
 		.then(response => {
 			if(response != undefined && response.status != 'ERROR'){
@@ -54,16 +53,16 @@ export class HomePage {
 			} else {
 				this.util.presentToast(response.message);
 			}
-			this.dismissLoader();	
+			this.util.loadingDismiss();
 		})
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
-			this.loader.dismiss();
+			this.util.loadingDismiss();
 		});
 	}
 
 	getInvoiceByElement(_id: string){
-		this.loader = this.util.loading();
+		this.util.loading();
 		this.contractService.getInvoiceByElement(_id)
 		.then(response => {
 			if(response != undefined && response.length != 0){
@@ -72,15 +71,16 @@ export class HomePage {
 			} else {
 				this.util.presentToast('No hay facturas para este elemento.');
 			}
-			this.loader.dismiss();
+			this.util.loadingDismiss();
 		})
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
-			this.loader.dismiss();
+			this.util.loadingDismiss();
 		});
 	}
 
 	getInvoices(_id: string){
+		this.util.loading();
 		this.contractService.getInvoices(_id)
 		.then(response => {
 			if(response != undefined && response.status != 'ERROR'){
@@ -96,11 +96,11 @@ export class HomePage {
 			} else {
 				this.util.presentToast(response.message);
 			}
-			this.dismissLoader();
+			this.util.loadingDismiss();
 		})
 		.catch(error => { 
 			this.util.presentToast('No es posible conectarse al servidor.');
-			this.loader.dismiss();
+			this.util.loadingDismiss();
 		});
 	}
 
@@ -122,7 +122,7 @@ export class HomePage {
 	        {
 	          text: 'Vale',
 	          handler: data => {
-	            let loader = this.util.loading();
+				this.util.loading();
 	            let description = data.description;
 				this.contractService.changeStateInvoice(ev, fa_id, description)
 				.then(data => {
@@ -134,11 +134,11 @@ export class HomePage {
 					} else {
 						this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
 					}
-					loader.dismiss();
+					this.util.loadingDismiss();
 				})
 				.catch(error => {
 					this.invoice[index].state_color_copy = Object.assign({}, this.invoice[index].state_color);
-					loader.dismiss();
+					this.util.loadingDismiss();
 					this.util.presentToast('No es posible conectarse al servidor.');
 				});
 	          }
@@ -159,15 +159,6 @@ export class HomePage {
 
 	viewInvoicDetail(invoice){
 		this.navCtrl.push(InvoicePage, {invoice: invoice});
-	}
-
-	dismissLoader(){
-		if(this.count == 1){
-			this.loader.dismiss();
-			this.count = 0;
-		} else {
-			this.count++;
-		}
 	}
 
 	goToSlide(index: number) {

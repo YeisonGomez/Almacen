@@ -31,7 +31,7 @@ export class InvoicePage {
   }
 
   getDetailInvoice(){
-    let loader = this.util.loading();
+    this.util.loading();
     this.invoiceService.getDetailInvoice(this.invoice.FACT_ID)
     .then(data => {
       if(data != undefined && data.length != 0){
@@ -44,10 +44,10 @@ export class InvoicePage {
       } else {
         this.util.presentToast('No se encontraron elementos para esta factura.');  
       }
-      loader.dismiss();
+      this.util.loadingDismiss();
     })
     .catch(error => {
-      loader.dismiss();
+      this.util.loadingDismiss();
       this.util.presentToast('No es posible conectarse al servidor.');
     });
   }
@@ -92,7 +92,7 @@ export class InvoicePage {
   }
 
   changeStateInvoice(ev, fade_id, index, acceptInvoice, description){
-    let loader = this.util.loading(); 
+    this.util.loading(); 
     this.contractService.changeStateInvoice(ev, fade_id, description)
       .then(data => {
         if(data != undefined && data[0]._TIPO == "notificacion"){
@@ -108,17 +108,17 @@ export class InvoicePage {
         } else {
           this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
         }
-        loader.dismiss();
+        this.util.loadingDismiss();
       })
       .catch(error => {
         this.invoice.state_color_copy = Object.assign({}, this.invoice.state_color);
-        loader.dismiss();
+        this.util.loadingDismiss();
         this.util.presentToast('No es posible conectarse al servidor.');
       });
   }
 
   changeStateInvoiceDetail(ev, fade_id, index, acceptInvoice){
-    let loader = this.util.loading(); 
+    this.util.loading(); 
     this.invoiceService.changeState(ev, fade_id)
     .then(data => {
       if(data != undefined && data[0]._TIPO == "notificacion"){
@@ -134,10 +134,10 @@ export class InvoicePage {
       } else {
           this.util.presentToast('Tenemos un problema, por favor intentelo más tarde.');
       }
-      loader.dismiss();
+      this.util.loadingDismiss();
     })
     .catch(error => {
-        loader.dismiss();
+        this.util.loadingDismiss();
         this.invoice.state_color_copy = Object.assign({}, this.invoice.state_color);
         this.util.presentToast('No es posible conectarse al servidor.');
     });

@@ -13,11 +13,10 @@ import { DataSheetPage } from '../data-sheet/data-sheet';
 })
 export class LandingSheetPage {
 
-	private loader: any;
 	public param_search: number;
   	public elements: any = [];
 
-  	constructor(public navCtrl: NavController, 
+  	constructor(public navCtrl: NavController,  
 	  	public navParams: NavParams,
 	  	private menu: MenuController,
 	  	private elementService: ElementService,
@@ -29,22 +28,30 @@ export class LandingSheetPage {
 
   	ionViewDidLoad() {}
 
-  	public getElementByCode(code: string){
-		if(code != undefined){
-			this.loader = this.util.loading();
+  	public getElementByCode(code: any, callback?: any, context?: any){
+		if(code != undefined && !isNaN(code) && code.length > 0){
+			this.util.loading();
 			this.elementService.getElementByCode(code)
 			.then(data => {
-		    	console.log(data);
-		      	if(data != undefined && data.length != 0){
-			        this.goView(data);
+		      	if(data != undefined){
+		      		if(data.length != 0){
+		      			this.elements = data;
+			      		if(callback){
+			      			callback(context);
+			      		} else {
+			      			this.goView(this.elements);
+			      		}
+		      		} else {
+		      			this.util.presentToast('No se encontro el elemento.');
+		      		}
 		      	} else {
 		        	this.util.presentToast('No es posible conectarse al servidor.');
 		      	}
-		      	this.loader.dismiss();
+		      	this.util.loadingDismiss();
 		    })
 		    .catch(error => {
 		    	console.log(error);
-		        this.loader.dismiss();
+		        this.util.loadingDismiss();
 		        this.util.presentToast('No es posible conectarse al servidor.');
 		    });
 		}
@@ -61,7 +68,7 @@ export class LandingSheetPage {
 	}
 
 	public goView(elements: any){
-    	this.navCtrl.push(DataSheetPage, { elements: elements });	
+    	this.navCtrl.push(DataSheetPage, { elements: elements, getElementByCode: this.getElementByCode });	
 	}
 
 }

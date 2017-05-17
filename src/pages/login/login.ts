@@ -16,7 +16,6 @@ declare var window: any;
 })
 export class LoginPage {
 
-	private loader: any;
 	private wifi: boolean = true
 
 	constructor(
@@ -51,21 +50,21 @@ export class LoginPage {
  
 	login(){
 		if(this.wifi){
-			this.loader = this.util.loading();
+			this.util.loading();
 			this.platform.ready().then(() => {
 			    this.chairaLogin().then(success => {
 			    	this.oauth2Service.getAccessToken(success.detail)
 					.then(response => {
 						this.profileSQL.setUser(response);
 						this.profileSQL.getUser().then(user => {
-							this.loader.dismiss();
 				  			this.navCtrl.setRoot(ContractPage);
 						});
+						this.util.loadingDismiss();
 					})
 					.catch(error => console.log(error))
 
 			    }, (error) => {
-			    	this.loader.dismiss();
+			    	this.util.loadingDismiss();
 			        if(error.state == 'error_noti'){
 			        	this.util.presentToast(error.detail);
 			        }

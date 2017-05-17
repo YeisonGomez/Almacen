@@ -3,11 +3,13 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Ficha técnica</ion-title>
+        <ion-title *ngIf="current_slide == 0">Información general</ion-title>
+        <ion-title *ngIf="current_slide == 1">Movimientos</ion-title>
+        <ion-title *ngIf="current_slide == 2">Caracteristicas</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <ion-searchbar placeholder="Buscar elemento" type="text" (ionInput)="getElementByCode($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Buscar elemento" type="number" debounce="1500" (ionInput)="getElementByCode($event.target.value, updateElement, this)"></ion-searchbar>
     <ion-slides class="pagemainclass" zoom="false" *ngIf="elements" (ionSlideDidChange)="slideChanged()">
         <!--INFORMACION GENERAL-->
         <ion-slide>
@@ -54,37 +56,49 @@
             </ion-card>
         </ion-slide>
         <!--INFORMACION GENERAL-->
-        <!--ELEMENTO-->
+        <!--MOVIMIENTOS-->
         <ion-slide>
-            <ion-card class="cards-list-demo">
+            <ion-card class="cards-list-demo" *ngFor="let mov of movements;">
                 <ion-item-group>
-                    <ion-item-divider color="light">Elemento solicitado</ion-item-divider>
+                    <ion-item-divider color="light">Movimiento</ion-item-divider>
                     <ion-item>
-                        <h2>Aca Movimientos</h2>
-                        <p>Código: 66</p>
+                        <h2>{{mov.FUNCIONARIO}}</h2>
+                        <p>Documento: {{mov.PEGE_DOCUMENTOIDENTIDAD}}</p>
                     </ion-item>
                     <ion-item>
-                        <ion-label color="light-text">Cantidad solicitada</ion-label>
-                        <ion-label class="align-right">Aca</ion-label>
+                        <ion-label color="light-text">Dependencia #{{mov.UNID_ID}}</ion-label>
+                    </ion-item>
+                    <ion-label class="align-right">{{mov.UNID_NOMBRE}}</ion-label>
+                    <ion-item>
+                        <ion-label color="light-text">Proceso</ion-label>
+                        <ion-label class="align-right">{{mov.COPR_PROCESO}}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="light-text">Fecha</ion-label>
+                        <ion-label class="align-right">{{mov.COAL_FECHA | date: 'dd/MM/yyyy'}}</ion-label>
                     </ion-item>
                 </ion-item-group>
             </ion-card>
         </ion-slide>
-        <!--ELEMENTO-->
+        <!--MOVIMIENTOS-->
         <!--CARACTERISTICA-->
         <ion-slide>
-            <ion-card class="cards-list-demo" *ngFor="let inv of invoice; let i = index;">
+            <ion-card class="cards-list-demo" *ngFor="let charac of characteristics;">
                 <ion-item-group>
                     <ion-item-divider color="light">
-                        <span>Factura #66</span>
+                        <span>Caracteristica</span>
                     </ion-item-divider>
                     <ion-item>
-                        <h2>Aca vienen Caracteristicas</h2>
+                        <h2>{{charac.CARA_DESCRIPCION}}</h2>
                     </ion-item>
-                    <!--<ion-item>
-                        <ion-label color="light-text">Fecha registro</ion-label>
-                        <ion-label class="align-right">{{inv.FACT_REGISTRADOFECHA | date: 'dd/MM/yyyy'}}</ion-label>
-                    </ion-item>-->                
+                    <ion-item>
+                        <ion-label color="light-text">Valor</ion-label>
+                        <ion-label class="align-right">{{charac.ELCV_VALOR}}{{charac.ELCV_UNIDAD}}</ion-label>
+                    </ion-item>      
+                    <ion-item>
+                        <ion-label color="light-text">Estado</ion-label>
+                        <ion-label class="align-right">{{(charac.ELCV_ESTADO == 'A')? 'Activo' : 'Inactivo'}}</ion-label>
+                    </ion-item>          
                 </ion-item-group>
             </ion-card>
         </ion-slide>

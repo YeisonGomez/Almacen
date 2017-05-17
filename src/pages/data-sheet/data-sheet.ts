@@ -12,8 +12,9 @@ import { Util } from '../../providers/util';
 export class DataSheetPage {
 
 	@ViewChild(Slides) slides: Slides;
-	private loader: any;
+	//private loader: any;
 	private count: number = 0;
+	public getElementByCode: any;
 	public param_search: number;
   	public elements: any = [];
   	public movements: any = [];
@@ -29,98 +30,77 @@ export class DataSheetPage {
 	  	private util: Util) {
   		this.menu.swipeEnable(true, 'menu1');
   		this.elements = navParams.get('elements');
+  		this.getElementByCode = navParams.get('getElementByCode');
 
-  		this.loader = this.util.loading();
-  		this.getCaracteristicsElement();
-  		this.getMovementsElement();
-  		this.getClasificatorElement();
+  		this.updateElement(this);
   	}
  
 	ionViewDidLoad() {}
 
 	public getClasificatorElement(){
+		this.util.loading();
 		this.elementService.getClasificatorElement(this.elements[0].CLAS_ID)
 		.then(data => {
-				console.log("Clasificador");
-		    	console.log(data);
 		      	if(data != undefined && data.status != 'ERROR'){
-		        	if(data.length != 0){
-			          	this.clasificator = data;
-			        } else {
-			          this.util.presentToast('Este elemento no tiene clasificadores.');
+		      		this.clasificator = data;
+		        	if(data.length == 0){
+			          	//this.util.presentToast('Este elemento no tiene clasificadores.');
 			        }
 		      	} else {
 		        	this.util.presentToast('No es posible conectarse al servidor.');
 		      	}
-		      	this.dismissLoader();
+		      	this.util.loadingDismiss();
 		    })
 		    .catch(error => {
-		        this.loader.dismiss();
+		        this.util.loadingDismiss();
 		        this.util.presentToast('No es posible conectarse al servidor.');
 		    });
 	}
 
 	public getCaracteristicsElement(){
-		//CARA_DESCRIPCION
-		//ELCV_UNIDAD KG
-		//ELCV_VALOR 25
-		//ELCV_ESTADO ( A = ACTIVO, I = Inactivo)
+		this.util.loading();
 		this.elementService.getElementCaracteristics(this.elements[0].ELEM_ID)
 		.then(data => {
-				console.log("Caracteristicas");
-		    	console.log(data);
 		      	if(data != undefined && data.status != 'ERROR'){
-		        	if(data.length != 0){
-			          	this.characteristics = data;
-			        } else {
-			          this.util.presentToast('Este elemento no tiene caracteristicas.');
+		      		this.characteristics = data;
+		        	if(data.length == 0){
+		        		//this.util.presentToast('Este elemento no tiene caracteristicas.');
 			        }
 		      	} else {
 		        	this.util.presentToast('No es posible conectarse al servidor.');
 		      	}
-		      	this.dismissLoader();
+		      	this.util.loadingDismiss();
 		    })
 		    .catch(error => {
-		        this.loader.dismiss();
+		        this.util.loadingDismiss();
 		        this.util.presentToast('No es posible conectarse al servidor.');
 		    });
 	}
 
 	public getMovementsElement(){
-		//COPR_PROCESO: "TRASLADOS"
-		//UNID_ID: 815  Codigo dependencia
- 		//UNID_NOMBRE: "BODEGA DE REINTEGROS" Nombre dependencia
- 		//FUNCIONARIO: "JOSÉ ANTONIO PASTRANA LIZCANO" Tercero
-		//PEGE_DOCUMENTOIDENTIDAD: "1117498549"
-		//COAL_FECHA: "2016-12-16T00:00:00"
+		this.util.loading();
 		this.elementService.getMovementsElement(this.elements[0].ELEM_ID)
 		.then(data => {
-				console.log("Movimientos");
-		    	console.log(data);
 		      	if(data != undefined && data.status != 'ERROR'){
-		        	if(data.length != 0){
-			          	this.movements = data;
-			        } else {
-			          this.util.presentToast('Este elemento no tiene movimientos.');
+		      		this.movements = data;
+		        	if(data.length == 0){
+		        		//this.util.presentToast('Este elemento no tiene movimientos.');
 			        }
 		      	} else {
 		        	this.util.presentToast('No es posible conectarse al servidor.');
 		      	}
-		      	this.dismissLoader();
+		      	this.util.loadingDismiss();
 		    })
 		    .catch(error => {
-		        this.loader.dismiss();
+		        this.util.loadingDismiss();
 		        this.util.presentToast('No es posible conectarse al servidor.');
 		    });
 	}
 
-	dismissLoader(){
-		if(this.count == 1){
-			this.loader.dismiss();
-			this.count = 0;
-		} else {
-			this.count++;
-		}
+	public updateElement(context: any){
+  		context.getCaracteristicsElement();
+  		context.getMovementsElement();
+  		context.getClasificatorElement();
 	}
 
 	goToSlide(index: number) {
