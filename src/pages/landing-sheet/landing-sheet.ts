@@ -16,6 +16,7 @@ export class LandingSheetPage {
 
 	public param_search: number;
   	public elements: any = [];
+  	public searchQuery: string;
   	private wifi: boolean = true;
 
   	constructor(public navCtrl: NavController,  
@@ -52,8 +53,7 @@ export class LandingSheetPage {
 			this.util.loading();
 			this.elementService.getElementByCode(code)
 			.then(data => {
-				console.log(data);
-		      	if(data.status != 'ERROR'){
+		      	if(data != undefined && data.status != 'ERROR'){
 		      		if(data.length != 0){
 		      			this.elements = data;
 			      		if(callback){
@@ -61,6 +61,7 @@ export class LandingSheetPage {
 			      		} else {
 			      			this.goView(this.elements);
 			      		}
+			      		this.searchQuery = '';
 		      		} else {
 		      			this.util.presentToast('No se encontro el elemento.');
 		      		}
