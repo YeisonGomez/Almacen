@@ -18,7 +18,7 @@ export class ContractPage {
   private loader: any;
   public contracts: any = [];
   public contract_copy: any;
-  public not_data: boolean = false;
+  public not_data: boolean = undefined;
   public loadingInit: boolean = false;
 
   constructor(public navCtrl: NavController,

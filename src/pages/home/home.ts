@@ -6,7 +6,6 @@ import { ProfileSQL } from '../../sql/profile.sql';
 import { ContractService } from '../../services/contract.service';
 import { ModalInvoicesComponent } from '../../components/modal-invoices/modal-invoices';
 
-import { LoginPage } from '../login/login';
 import { InvoicePage } from '../invoice/invoice';
 
 @Component({
@@ -21,7 +20,6 @@ export class HomePage {
 	public elements: any;
 	public invoice: any;
 	public current_slide: number = 0;
-	private count: number = 0;
 
   constructor(public navCtrl: NavController, 
 	public navParams: NavParams, 

@@ -5,10 +5,10 @@
         </button>
         <ion-title *ngIf="current_slide == 0">Información general</ion-title>
         <ion-title *ngIf="current_slide == 1">Movimientos</ion-title>
-        <ion-title *ngIf="current_slide == 2">Caracteristicas</ion-title>
+        <ion-title *ngIf="current_slide == 2">Detalles</ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content padding>
+<ion-content>
     <ion-searchbar placeholder="Buscar elemento" type="number" debounce="1500" (ionInput)="getElementByCode($event.target.value, updateElement, this)"></ion-searchbar>
     <ion-slides class="pagemainclass" zoom="false" *ngIf="elements" (ionSlideDidChange)="slideChanged()">
         <!--INFORMACION GENERAL-->
@@ -95,7 +95,7 @@
             <ion-card [hidden]="characteristics == undefined || characteristics.length == 0" class="cards-list-demo" *ngFor="let charac of characteristics;">
                 <ion-item-group>
                     <ion-item-divider color="light">
-                        <span>Caracteristica</span>
+                        <span>Detalles</span>
                     </ion-item-divider>
                     <ion-item>
                         <h2>{{charac.CARA_DESCRIPCION}}</h2>
@@ -134,7 +134,7 @@
                     <button ion-button block style="color: white" clear (click)="goToSlide(1)" [ngClass]="{ 'active-tab' : this.current_slide == 1 }">Movimientos</button>
                 </ion-col>
                 <ion-col>
-                    <button ion-button block style="color: white" clear (click)="goToSlide(2)" [ngClass]="{ 'active-tab' : this.current_slide == 2 }">Caracteristicas</button>
+                    <button ion-button block style="color: white" clear (click)="goToSlide(2)" [ngClass]="{ 'active-tab' : this.current_slide == 2 }">Detalles</button>
                 </ion-col>
             </ion-row>
         </ion-grid>

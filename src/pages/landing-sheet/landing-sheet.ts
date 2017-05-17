@@ -49,7 +49,7 @@ export class LandingSheetPage {
   	ionViewDidLoad() {}
 
   	public getElementByCode(code: any, callback?: any, context?: any){
-		if(code != undefined && !isNaN(code) && code.length > 0 && this.wifi){
+		if(code != undefined && !isNaN(code) && code.length > 0 && (this.wifi || callback)){
 			this.util.loading();
 			this.elementService.getElementByCode(code)
 			.then(data => {
