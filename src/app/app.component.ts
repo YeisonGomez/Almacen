@@ -18,13 +18,13 @@ export class MyApp {
 
   rootPage: any = LandingSheetPage; 
   public user: any;
-  pages: Array<{title: string, component: any}>; 
+  pages: Array<{title: string, component: any, icon: string}>; 
 
   constructor(public platform: Platform, private profileSQL: ProfileSQL, public alertCtrl: AlertController) {
     this.initializeApp();
     this.pages = [
-      { title: 'Contratos', component: ContractPage },
-      { title: 'Ficha técnica', component: LandingSheetPage }
+      { title: 'Contratos', component: ContractPage, icon: 'briefcase' },
+      { title: 'Ficha técnica', component: LandingSheetPage, icon: 'filing' }
     ];
 
     this.profileSQL.currentUser.subscribe((userData) => { 

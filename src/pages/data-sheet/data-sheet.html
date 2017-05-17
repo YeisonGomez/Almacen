@@ -58,7 +58,7 @@
         <!--INFORMACION GENERAL-->
         <!--MOVIMIENTOS-->
         <ion-slide>
-            <ion-card class="cards-list-demo" *ngFor="let mov of movements;">
+            <ion-card [hidden]="movements == undefined || movements.length == 0" class="cards-list-demo" *ngFor="let mov of movements;">
                 <ion-item-group>
                     <ion-item-divider color="light">Movimiento</ion-item-divider>
                     <ion-item>
@@ -79,11 +79,20 @@
                     </ion-item>
                 </ion-item-group>
             </ion-card>
+            <div class=wrap [hidden]="movements == undefined || movements.length > 0">
+                <div class="content-img">
+                    <img src="./assets/not_data.svg" />
+                </div>
+                <div class="text-wrap">
+                    <span class="title">No hay movimientos</span>
+                    <!--<span class="subtitle">Deslice hacia abajo para buscar contratos vigentes</span>-->
+                </div>
+            </div>
         </ion-slide>
         <!--MOVIMIENTOS-->
         <!--CARACTERISTICA-->
         <ion-slide>
-            <ion-card class="cards-list-demo" *ngFor="let charac of characteristics;">
+            <ion-card [hidden]="characteristics == undefined || characteristics.length == 0" class="cards-list-demo" *ngFor="let charac of characteristics;">
                 <ion-item-group>
                     <ion-item-divider color="light">
                         <span>Caracteristica</span>
@@ -94,13 +103,22 @@
                     <ion-item>
                         <ion-label color="light-text">Valor</ion-label>
                         <ion-label class="align-right">{{charac.ELCV_VALOR}}{{charac.ELCV_UNIDAD}}</ion-label>
-                    </ion-item>      
+                    </ion-item>
                     <ion-item>
                         <ion-label color="light-text">Estado</ion-label>
                         <ion-label class="align-right">{{(charac.ELCV_ESTADO == 'A')? 'Activo' : 'Inactivo'}}</ion-label>
-                    </ion-item>          
+                    </ion-item>
                 </ion-item-group>
             </ion-card>
+            <div class=wrap [hidden]="characteristics == undefined || characteristics.length > 0">
+                <div class="content-img">
+                    <img src="./assets/not_data.svg" />
+                </div>
+                <div class="text-wrap">
+                    <span class="title">No hay caracteristicas</span>
+                    <!--<span class="subtitle">Deslice hacia abajo para buscar contratos vigentes</span>-->
+                </div>
+            </div>
         </ion-slide>
         <!--CARACTERISTICA-->
     </ion-slides>

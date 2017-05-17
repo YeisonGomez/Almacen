@@ -16,7 +16,7 @@ declare var window: any;
 })
 export class LoginPage {
 
-	private wifi: boolean = true
+	private wifi: boolean = true;
 
 	constructor(
 		public navCtrl: NavController, 

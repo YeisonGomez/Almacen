@@ -17,9 +17,9 @@ export class DataSheetPage {
 	public getElementByCode: any;
 	public param_search: number;
   	public elements: any = [];
-  	public movements: any = [];
-  	public characteristics: any = [];
-  	public clasificator: any = [];
+  	public movements: any = undefined;
+  	public characteristics: any = undefined;
+  	public clasificator: any = undefined;
   	public current_slide: number = 0;
 
   	constructor(
@@ -43,9 +43,6 @@ export class DataSheetPage {
 		.then(data => {
 		      	if(data != undefined && data.status != 'ERROR'){
 		      		this.clasificator = data;
-		        	if(data.length == 0){
-			          	//this.util.presentToast('Este elemento no tiene clasificadores.');
-			        }
 		      	} else {
 		        	this.util.presentToast('No es posible conectarse al servidor.');
 		      	}
@@ -63,9 +60,6 @@ export class DataSheetPage {
 		.then(data => {
 		      	if(data != undefined && data.status != 'ERROR'){
 		      		this.characteristics = data;
-		        	if(data.length == 0){
-		        		//this.util.presentToast('Este elemento no tiene caracteristicas.');
-			        }
 		      	} else {
 		        	this.util.presentToast('No es posible conectarse al servidor.');
 		      	}
@@ -83,9 +77,6 @@ export class DataSheetPage {
 		.then(data => {
 		      	if(data != undefined && data.status != 'ERROR'){
 		      		this.movements = data;
-		        	if(data.length == 0){
-		        		//this.util.presentToast('Este elemento no tiene movimientos.');
-			        }
 		      	} else {
 		        	this.util.presentToast('No es posible conectarse al servidor.');
 		      	}
